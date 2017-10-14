@@ -85,7 +85,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.webmad.net/images/17.10.14.3/abstract.jpg">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2017-10-14T07:01:03.240Z">
+<meta property="og:updated_time" content="2017-10-14T07:01:39.785Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker配置NodeJS+Mongo">
 <meta name="twitter:image" content="http://blog.webmad.net/images/17.10.14.3/abstract.jpg">
@@ -366,7 +366,9 @@
 <li>使用容器连接(link)方法,Mongo容器与WebApp容器连接</li>
 <li>数据库连接语句要通过容器别名构建!!!</li>
 <li>宿主机只需监听Web端口即可</li>
-<li>Rockmongo用于图形化界面管理数据库<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2></li>
+<li>Rockmongo用于图形化界面管理数据库</li>
+</ul>
+<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><ul>
 <li>服务器上已有nodejs环境并可运行,根目录在/usr/local/node</li>
 <li>项目中的数据库连接语句改成数据库容器别名,实例化Mongo容器时–name casebasedb,mongoose连接语句改为</li>
 </ul>
@@ -375,7 +377,13 @@
 <h2 id="构建Web镜像"><a href="#构建Web镜像" class="headerlink" title="构建Web镜像"></a>构建Web镜像</h2><p>编写Dockerfile<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ vim /***/Dockerfile</div></pre></td></tr></table></figure></p>
 <p>Dockerfile内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">FROM node:latest # 基于node镜像</div><div class="line">COPY . /***/casebase # 项目源文件目录</div><div class="line">COPY . /usr/local/node # 直接拖进去的node环境</div><div class="line">WORKDIR /***/casebase # nodejs运行目录</div><div class="line">RUN npm install # 重新安装下依赖包</div><div class="line">EXPOSE 8001 # 暴露端口8001</div><div class="line">CMD [&quot;node&quot;, &quot;app.js&quot;] # 执行命令</div></pre></td></tr></table></figure></p>
 <p>根据Dockerfile新建镜像,命令结尾的 . 是指示Dockerfile文件在当前目录下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo docker build -t hugh/casebase .</div></pre></td></tr></table></figure></p>
-<p>实例化容器<br>-p映射到当前8001端口;<br>–link语句连接数据库 [数据库容器名]:[容器别名]<br>当连接成功后在web容器中可以直接ping到[容器别名containerdb]作为主机标识,所以一定要将数据库连接语句中的主机改成[容器别名]!!!<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo docker run -d --name casebasedb mongo</div><div class="line">$ sudo docker run --name casebaseapp -d -p 8001:8001 --link casebasedb:containerdb hugh/casebase </div><div class="line">$ sudo docker run --name rockapp -d -p 8003:80 --link casebasedb:containerdb pataquets/rockmongo</div></pre></td></tr></table></figure></p>
+<p>实例化容器</p>
+<ul>
+<li>-p映射到当前8001端口;</li>
+<li>–link语句连接数据库 [数据库容器名]:[容器别名]</li>
+<li>当连接成功后在web容器中可以直接ping到[容器别名containerdb]作为主机标识,所以一定要将数据库连接语句中的主机改成[容器别名]!!!</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo docker run -d --name casebasedb mongo</div><div class="line">$ sudo docker run --name casebaseapp -d -p 8001:8001 --link casebasedb:containerdb hugh/casebase </div><div class="line">$ sudo docker run --name rockapp -d -p 8003:80 --link casebasedb:containerdb pataquets/rockmongo</div></pre></td></tr></table></figure>
 <h2 id="验证容器"><a href="#验证容器" class="headerlink" title="验证容器"></a>验证容器</h2><p>查看容器情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ sudo docker ps -a</div><div class="line">CONTAINER ID        IMAGE                    COMMAND                  CREATED             STATUS              PORTS                    NAMES</div><div class="line">4e2ab928a683        dh/casebase:17.09.16.1   &quot;node app.js&quot;            14 minutes ago      Up 14 minutes       0.0.0.0:8001-&gt;8001/tcp   casebaseapp</div><div class="line">66e6ba5f5873        mongo                    &quot;docker-entrypoint...&quot;   17 minutes ago      Up 17 minutes       27017/tcp                casebasedb</div></pre></td></tr></table></figure></p>
 <p>查看端口监听情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ sudo netstat -lntp</div><div class="line">Active Internet connections (only servers)</div><div class="line">Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name</div><div class="line">tcp6       0      0 :::8001                 :::*                    LISTEN      32211/docker-proxy</div></pre></td></tr></table></figure></p>
 <p>访问宿主机ip:8001,此时已可以访问web项目了</p>
