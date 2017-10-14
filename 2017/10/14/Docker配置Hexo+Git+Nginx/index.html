@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Docker,Hexo,Git,Nginx,SSH," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="Docker,Hexo,Git,Nginx,SSH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker配置Hexo+Git+Nginx">
+<meta property="og:url" content="http://blog.webmad.net/2017/10/14/Docker配置Hexo+Git+Nginx/index.html">
+<meta property="og:site_name" content="Hugh Dong">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog.webmad.net/images/17.10.14.3/abstract.png">
+<meta property="og:image" content="http://blog.webmad.net/images/17.10.14.4/1.png">
+<meta property="og:image" content="http://blog.webmad.net/images/17.10.14.4/2.png">
+<meta property="og:image" content="http://blog.webmad.net/images/guide.png">
+<meta property="og:updated_time" content="2017-10-14T08:04:57.257Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker配置Hexo+Git+Nginx">
+<meta name="twitter:image" content="http://blog.webmad.net/images/17.10.14.3/abstract.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.webmad.net/2017/10/14/Docker配置Hexo+Git+Nginx/"/>
+
+
+
+
+
+  <title>Docker配置Hexo+Git+Nginx | Hugh Dong</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bbf71a40a5a6bb7e9c203f4b44b1f1d8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hugh Dong</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">于学习中挣扎,一生以贯之</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.webmad.net/2017/10/14/Docker配置Hexo+Git+Nginx/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hugh Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hugh Dong">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Docker配置Hexo+Git+Nginx</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-14T15:25:16+08:00">
+                2017-10-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/运维/" itemprop="url" rel="index">
+                    <span itemprop="name">运维</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://blog.webmad.net/images/17.10.14.3/abstract.png" alt="img_noborder"><br><a id="more"></a></p>
+<h2 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h2><p>像我这种Tototototo Young的码字儿的总喜欢追求所谓逼格,原来用博客园方便在onenote可以直接导入,想迁移到markdown来又嫌github对国内访问速度有点障碍,就开始折腾到自己博客上<br>为了保证服务器环境的干净(强迫症晚期),将整套环境封装进docker中<br>如果想要8003直接绑定到域名上,见另一篇Docker配置Nginx反向代理</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><ul>
+<li>Hexo+Github的构建博客资料网上有很多,不赘述,不使用这种方法</li>
+<li>Hexo+Git+Nginx+云主机上构建服务器资料也不少,如果想要配置过程的邮件私聊我</li>
+<li>Hexo+Git+Nginx+云主机+Docker,今天使用这种方法构建,镜像还没有push到Docker源,有需要的私聊~</li>
+</ul>
+<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><p>Hexo是基于Nodejs的一个框架,将markdown文件解析生成html静态文件<br>通过Git将本地的html文件拉取到云主机上,存入nginx站点目录供解析<br>Docker容器需要开放两个端口,80用于nginx解析,22端口给git推送博客页面,宿主机监听8003和8004端口<br>镜像以Centos为基础镜像,拉取NodeJS,使用yum安装Nginx,Git,OpenSSH<br>但由于需要配置ssh的公钥私钥,则在实例化镜像后再进入容器配置ssh</p>
+<h2 id="主机环境"><a href="#主机环境" class="headerlink" title="主机环境"></a>主机环境</h2><ul>
+<li>宿主机环境<br>centos Linux release 7.3.1611 (Core)<br>docker version 17.06.1-ce, build 874a737<br>node v8.4.0<br>npm 5.3.0</li>
+<li>容器环境<br>centos Linux release 7.4.1708 (Core)<br>nginx version: nginx/1.12.1<br>git version 1.8.3.1</li>
+<li>容器目录<br>git库: /root/blogs.git<br>nginx: /etc/nginx/conf.d/default.conf<br>blog文件: /usr/share/nginx/html<br>ssh私钥: /root/.ssh/authorized_keys</li>
+</ul>
+<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><ul>
+<li>宿主机已有nodejs环境并可运行,根目录在/usr/local/node</li>
+<li>宿主机安装docker</li>
+<li>电脑端安装git</li>
+</ul>
+<h2 id="构建Dockerfile"><a href="#构建Dockerfile" class="headerlink" title="构建Dockerfile"></a>构建Dockerfile</h2><p>拉取Centos镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo docker pull centos</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">FROM centos:latest # 基于centos</div><div class="line">COPY . /usr/local/node # 将node环境复制</div><div class="line">RUN \</div><div class="line">        yum install -y wget &amp;&amp; \ # 安装wget</div><div class="line">        mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup &amp;&amp; \ # 备份yum源</div><div class="line">        wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo &amp;&amp; \ # 更换yum源为阿里源</div><div class="line">        yum clean all &amp;&amp; \ # yum缓存</div><div class="line">        yum makecache &amp;&amp; \</div><div class="line">        rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm &amp;&amp; \ # 获取nginx的yum源</div><div class="line">        yum install -y nginx &amp;&amp; \ # 安装nginx</div><div class="line">        yum install -y git &amp;&amp; \ # 安装git</div><div class="line">        yum install -y vim &amp;&amp; \ # 安装vim</div><div class="line">        git init --bare ~/blogs.git &amp;&amp; \ # 创建git库</div><div class="line">        echo &quot;git --work-tree=/usr/share/nginx/html --git-dir=/root/blogs.git checkout -f&quot; &gt;~/blogs.git/hooks/post-receive &amp;&amp; \ # 创建git勾子用于拉取hexo推送的信息</div><div class="line">        chmod a+x ~/blogs.git/hooks/post-receive &amp;&amp; \ # 给勾子执行权限</div><div class="line">        yum install -y openssh openssh-server openssh-clients &amp;&amp; \ # 安装ssh服务</div><div class="line">        ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key &amp;&amp; \ # 生成服务端钥匙</div><div class="line">        ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key &amp;&amp; \</div><div class="line">        ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key</div><div class="line">EXPOSE 22 # 暴露22端口用于ssh连接,git拉取页面</div><div class="line">EXPOSE 80 # 暴露80端口用于nginx服务</div><div class="line">CMD [&quot;nginx&quot;,&quot;-g&quot;,&quot;daemon off;&quot;] # nginx服务命令,必须使用daemon守护进程</div></pre></td></tr></table></figure>
+<p>p.s.Docker容器后台运行,就必须有一个前台进程,如果CMD仅执行nginx,那么nginx执行完后台启动后,会立即自杀,docker容器状态会变为exited<br>docker容器必须有一个常驻的前台进程,所以使用daemon,使pid=1的进程不是/bin/bash而退出</p>
+<p>##　构建镜像与容器<br>构建镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ docker build -t hexoblogs . // 构建新镜像,注意不要少了最后的点</div><div class="line">Successfully built 70eaeb40d97b</div><div class="line">Successfully tagged hughdong/hexoblogs:latest</div></pre></td></tr></table></figure></p>
+<p>实例化容器并映射到宿主机端口,后台运行容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo docker run --name dhblogs -p 8003:80 -p 8004:22 -d hexoblogs:latest</div></pre></td></tr></table></figure></p>
+<p>查看容器情况,当看到Status是UP且能看到Ports端口情况时为正常<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo docker ps -a</div><div class="line">CONTAINER ID        IMAGE                    COMMAND                  CREATED             STATUS              PORTS                                        NAMES</div><div class="line">c58e2a73f117        hexoblogs:latest         &quot;nginx -g &apos;daemon ...&quot;   12 minutes ago      Up 12 minutes       0.0.0.0:8004-&gt;22/tcp, 0.0.0.0:8003-&gt;80/tcp   dhblogs</div></pre></td></tr></table></figure></p>
+<h2 id="测试镜像"><a href="#测试镜像" class="headerlink" title="测试镜像"></a>测试镜像</h2><p>浏览器输入<a href="http://***.***.***.***:8003/是否显示nginx测试页" target="_blank" rel="external">http://***.***.***.***:8003/是否显示nginx测试页</a><br><img src="http://blog.webmad.net/images/17.10.14.4/1.png" alt="img"></p>
+<h2 id="配置ssh"><a href="#配置ssh" class="headerlink" title="配置ssh"></a>配置ssh</h2><p>获取本地ssh公钥,电脑端打开git bash<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh-keygen</div></pre></td></tr></table></figure></p>
+<p>一路回车下去,然后打开C:\Users\Username.ssh\id_rsa.pub,复制内容,username是自己的电脑账户名<br>从宿主机进入Docker容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo docker exec -it dhblogs /bin/bash</div></pre></td></tr></table></figure></p>
+<p>进入容器后执行以下步骤<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># echo &quot;*******************************&quot; &gt; ~/.ssh/authorized_keys // 复制的公钥,替换掉命令的******</div><div class="line"># chmod 600 ~/.ssh/authorized_keys // 赋予权限</div><div class="line"># chmod 700 ~/.ssh</div><div class="line"># /usr/sbin/sshd // 启动ssh服务</div></pre></td></tr></table></figure></p>
+<h2 id="本地测试ssh并互换秘钥"><a href="#本地测试ssh并互换秘钥" class="headerlink" title="本地测试ssh并互换秘钥"></a>本地测试ssh并互换秘钥</h2><p>本地git bash执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh root@***.***.***.*** -p 8004 // 前面是宿主机ip后面是端口</div></pre></td></tr></table></figure></p>
+<p>首次执行ssh时需要输入yes连接,之后hexo才能正常推送<br><img src="http://blog.webmad.net/images/17.10.14.4/2.png" alt="img"><br>如果报错ERROR<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ERROR // 如果多次更换docker,同配置ssh连接时需要删除客户机的known_hosts</div><div class="line">	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</div><div class="line">	@    WARNING: REMOTE HOST IDENTIFICATION HASCHANGED!     @</div><div class="line">	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</div></pre></td></tr></table></figure></p>
+<p>C:\Users\hughd.ssh\known_hosts 删除该主机对应的旧信息即可</p>
+<h2 id="本地配置ssh配置文件"><a href="#本地配置ssh配置文件" class="headerlink" title="本地配置ssh配置文件"></a>本地配置ssh配置文件</h2><p>打开C:\Users\hughd.ssh,如果没有config文件则创建新的<br>Host是云主机ip地址,Port是容器映射到宿主机的端口8004<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Host ***.***.***.***</div><div class="line">Port ***</div></pre></td></tr></table></figure></p>
+<h2 id="本地配置hexo"><a href="#本地配置hexo" class="headerlink" title="本地配置hexo"></a>本地配置hexo</h2><p>nodejs和npm安装过程略<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ npm install -g hexo-cli</div><div class="line">$ npm install hexo-deployer-git --save </div><div class="line">$ npm install hexo-server</div><div class="line">$ hexo init f:/6.Code/GitBlogs // 初始化hexo</div><div class="line">$ npm install</div></pre></td></tr></table></figure></p>
+<p>配置本地hexo的_config.yml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"># Site</div><div class="line">title: Hugh</div><div class="line">subtitle: Mad web developers</div><div class="line">description:</div><div class="line">author: HughDong</div><div class="line">language: zh-CN</div><div class="line">timezone: Asia/Shanghai</div><div class="line"># Deployment</div><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repo: root@***.***.***.***:/root/blogs.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure></p>
+<p>生成并推送博客,看到回显服务器端files文件更新则成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ hexo clean &amp;&amp; hexo g -d</div><div class="line">[master 29390bd] Site updated: 2017-10-13 11:03:15 9 files changed, 23 insertions(+), 23 deletions(-)</div><div class="line">Branch master set up to track remote branch master from root@***.***.***.***:/root/blogs.git.</div><div class="line">To ***.***.***.***:/root/blogs.git   aa45a3e..29390bd  HEAD -&gt; master</div><div class="line">INFO  Deploy done: git</div></pre></td></tr></table></figure></p>
+<p><center><br><a href="mailto:hugh.dong@outlook.com" class="my-btn-contact" target="_blank" rel="external">联系博主</a><br></center><br><img src="http://blog.webmad.net/images/guide.png" alt="img_guide"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Docker/" rel="tag"># Docker</a>
+          
+            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+            <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+          
+            <a href="/tags/SSH/" rel="tag"># SSH</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/14/Docker配置NodeJS+MongoDB/" rel="next" title="Docker配置NodeJS+MongoDB">
+                <i class="fa fa-chevron-left"></i> Docker配置NodeJS+MongoDB
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Hugh Dong</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://cla55ic.github.io/" title="Cla55ic" target="_blank">Cla55ic</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/chainingning" title="DarrenChai" target="_blank">DarrenChai</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.sinyu1012.cn/" title="XinYu" target="_blank">XinYu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/l1ght" title="Lightsc" target="_blank">Lightsc</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#功能需求"><span class="nav-number">1.</span> <span class="nav-text">功能需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方案"><span class="nav-number">2.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现思路"><span class="nav-number">3.</span> <span class="nav-text">实现思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主机环境"><span class="nav-number">4.</span> <span class="nav-text">主机环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前期准备"><span class="nav-number">5.</span> <span class="nav-text">前期准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建Dockerfile"><span class="nav-number">6.</span> <span class="nav-text">构建Dockerfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试镜像"><span class="nav-number">7.</span> <span class="nav-text">测试镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置ssh"><span class="nav-number">8.</span> <span class="nav-text">配置ssh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地测试ssh并互换秘钥"><span class="nav-number">9.</span> <span class="nav-text">本地测试ssh并互换秘钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地配置ssh配置文件"><span class="nav-number">10.</span> <span class="nav-text">本地配置ssh配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地配置hexo"><span class="nav-number">11.</span> <span class="nav-text">本地配置hexo</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <a href="http://www.miitbeian.gov.cn">苏ICP备16043304号</a>
+  <span class="author" itemprop="copyrightHolder">Hugh Dong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
