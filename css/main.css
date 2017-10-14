@@ -1822,7 +1822,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffee5c;
+  background: #111a50;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2903,7 +2903,7 @@ hr {
     text-align: center;
   }
 }
-img[alt='guide_img'],
-img[alt~='img_noborder'] {
+img[alt='img_guide'],
+img[alt='img_noborder'] {
   border: none !important;
 }
