@@ -1822,7 +1822,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #05ff5b;
+  background: #99b6ff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2911,8 +2911,6 @@ img[alt='img_noborder'] {
   color: #333;
   background-color: #fff;
   border-color: #ccc;
-}
-.my-btn {
   display: inline-block;
   padding: 6px 12px;
   margin-bottom: 0;
@@ -2930,9 +2928,8 @@ img[alt='img_noborder'] {
   -ms-user-select: none;
   user-select: none;
   background-image: none;
-  border: 1px solid transparent;
   border-radius: 4px;
 }
 .my-btn-default:hover {
-  background-color: #fedfe1;
+  background-color: #333;
 }
