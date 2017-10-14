@@ -1822,7 +1822,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #810dff;
+  background: #b4ff58;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2910,7 +2910,7 @@ img[alt='img_noborder'] {
 .my-btn-default {
   color: #333;
   background-color: #fff;
-  border-color: #ccc;
+  border: 1px #ccc solid;
   display: inline-block;
   padding: 6px 12px;
   margin-bottom: 0;
@@ -2932,5 +2932,5 @@ img[alt='img_noborder'] {
 }
 .my-btn-default:hover {
   background-color: #eee;
-  border-color: #bbb;
+  border: 1px #bbb solid;
 }
