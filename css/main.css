@@ -1822,7 +1822,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff2609;
+  background: #aca4c9;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2907,7 +2907,8 @@ img[alt='img_guide'],
 img[alt='img_noborder'] {
   border: none !important;
 }
-.my-btn-default {
+.my-btn-default,
+.post-button a {
   color: #444;
   background-color: #fff;
   border: 2px #555 solid;
@@ -2930,7 +2931,8 @@ img[alt='img_noborder'] {
   background-image: none;
   border-radius: 2px;
 }
-.my-btn-default:hover {
+.my-btn-default:hover,
+.post-button:hover a {
   background-color: #444;
   border: 2px #444 solid;
   color: #ccc;
@@ -2938,4 +2940,11 @@ img[alt='img_noborder'] {
 .logo-line-before,
 .logo-line-after {
   display: none !important;
+}
+.post-body .post-button {
+  text-align: center !important;
+}
+.posts-expand .post-title,
+.posts-expand .post-meta {
+  text-align: center !important;
 }
