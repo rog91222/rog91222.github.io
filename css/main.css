@@ -1822,7 +1822,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #a88fff;
+  background: #188eaa;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2906,6 +2906,9 @@ hr {
 img[alt='img_guide'],
 img[alt='img_noborder'] {
   border: none !important;
+}
+img[alt='img_shadow'] {
+  box-shadow: 1px 4px 4px #ddd;
 }
 .my-btn-contact,
 .post-button a {
