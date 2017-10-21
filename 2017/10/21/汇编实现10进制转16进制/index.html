@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="Docker,Nodejs,MongoDB," />
+  <meta name="keywords" content="汇编,进制转换," />
 
 
 
@@ -77,18 +77,19 @@
 
 
 
-<meta name="keywords" content="Docker,Nodejs,MongoDB">
+<meta name="keywords" content="汇编,进制转换">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker配置NodeJS+MongoDB">
-<meta property="og:url" content="http://blog.webmad.net/2017/10/14/Docker配置NodeJS+MongoDB/index.html">
+<meta property="og:title" content="汇编实现10进制转16进制">
+<meta property="og:url" content="http://blog.webmad.net/2017/10/21/汇编实现10进制转16进制/index.html">
 <meta property="og:site_name" content="Hugh Dong">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://blog.webmad.net/images/17.10.14.3/abstract.png">
+<meta property="og:image" content="http://blog.webmad.net/images/17.10.21.1/abstract.png">
+<meta property="og:image" content="http://blog.webmad.net/images/17.10.21.1/1.png">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2017-10-16T01:33:55.456Z">
+<meta property="og:updated_time" content="2017-10-21T07:18:08.866Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker配置NodeJS+MongoDB">
-<meta name="twitter:image" content="http://blog.webmad.net/images/17.10.14.3/abstract.png">
+<meta name="twitter:title" content="汇编实现10进制转16进制">
+<meta name="twitter:image" content="http://blog.webmad.net/images/17.10.21.1/abstract.png">
 
 
 
@@ -118,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://blog.webmad.net/2017/10/14/Docker配置NodeJS+MongoDB/"/>
+  <link rel="canonical" href="http://blog.webmad.net/2017/10/21/汇编实现10进制转16进制/"/>
 
 
 
 
 
-  <title>Docker配置NodeJS+MongoDB | Hugh Dong</title>
+  <title>汇编实现10进制转16进制 | Hugh Dong</title>
   
 
 
@@ -271,7 +272,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.webmad.net/2017/10/14/Docker配置NodeJS+MongoDB/">
+    <link itemprop="mainEntityOfPage" href="http://blog.webmad.net/2017/10/21/汇编实现10进制转16进制/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hugh Dong">
@@ -288,7 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Docker配置NodeJS+MongoDB</h1>
+          <h1 class="post-title" itemprop="name headline">汇编实现10进制转16进制</h1>
         
 
         <div class="post-meta">
@@ -300,8 +301,8 @@
               
                 <!--<span class="post-meta-item-text">发表于</span>-->
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-14T14:39:16+08:00">
-                2017-10-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-21T15:14:00+08:00">
+                2017-10-21
               </time>
             
 
@@ -323,8 +324,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/以宕机为目标的服务器运维/" itemprop="url" rel="index">
-                    <span itemprop="name">以宕机为目标的服务器运维</span>
+                  <a href="/categories/汇编从入门到入门/" itemprop="url" rel="index">
+                    <span itemprop="name">汇编从入门到入门</span>
                   </a>
                 </span>
 
@@ -360,34 +361,13 @@
       
 
       
-        <p><img src="http://blog.webmad.net/images/17.10.14.3/abstract.png" alt="img_noborder"><br><a id="more"></a></p>
-<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>在Docker中运行一个Nodejs项目,连接Mongo数据库进行数据操作,并启动RockMongo容器</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
-<li>使用容器连接(link)方法,Mongo容器与WebApp容器连接</li>
-<li>数据库连接语句要通过容器别名构建!!!</li>
-<li>宿主机只需监听Web端口即可</li>
-<li>Rockmongo用于图形化界面管理数据库</li>
-</ul>
-<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><ul>
-<li>服务器上已有nodejs环境并可运行,根目录在/usr/local/node</li>
-<li>项目中的数据库连接语句改成数据库容器别名,实例化Mongo容器时–name casebasedb,mongoose连接语句改为</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var store = new SessionStore(&#123;url: &apos;mongodb://containerdb/session&apos;,interval: 1440&#125;);</div><div class="line">mongoose.connect(&apos;mongodb://containerdb:27017/casebasedb&apos;, &#123;useMongoClient: true,&#125;);</div></pre></td></tr></table></figure>
-<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo docker pull node</div><div class="line">$ sudo docker pull mongo</div><div class="line">$ sudo docker pull pataquets/rockmongo</div></pre></td></tr></table></figure>
-<h2 id="构建Web镜像"><a href="#构建Web镜像" class="headerlink" title="构建Web镜像"></a>构建Web镜像</h2><p>编写Dockerfile<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ vim /***/Dockerfile</div></pre></td></tr></table></figure></p>
-<p>Dockerfile内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">FROM node:latest # 基于node镜像</div><div class="line">COPY . /***/casebase # 项目源文件目录</div><div class="line">COPY . /usr/local/node # 直接拖进去的node环境</div><div class="line">WORKDIR /***/casebase # nodejs运行目录</div><div class="line">RUN npm install # 重新安装下依赖包</div><div class="line">EXPOSE 8001 # 暴露端口8001</div><div class="line">CMD [&quot;node&quot;, &quot;app.js&quot;] # 执行命令</div></pre></td></tr></table></figure></p>
-<p>根据Dockerfile新建镜像,命令结尾的 . 是指示Dockerfile文件在当前目录下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo docker build -t hugh/casebase .</div></pre></td></tr></table></figure></p>
-<p>实例化容器</p>
-<ul>
-<li>-p映射到当前8001端口;</li>
-<li>–link语句连接数据库 [数据库容器名]:[容器别名]</li>
-<li>当连接成功后在web容器中可以直接ping到[容器别名containerdb]作为主机标识,所以一定要将数据库连接语句中的主机改成[容器别名]!!!</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo docker run -d --name casebasedb mongo</div><div class="line">$ sudo docker run --name casebaseapp -d -p 8001:8001 --link casebasedb:containerdb hugh/casebase </div><div class="line">$ sudo docker run --name rockapp -d -p 8003:80 --link casebasedb:containerdb pataquets/rockmongo</div></pre></td></tr></table></figure>
-<h2 id="验证容器"><a href="#验证容器" class="headerlink" title="验证容器"></a>验证容器</h2><p>查看容器情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ sudo docker ps -a</div><div class="line">CONTAINER ID        IMAGE                    COMMAND                  CREATED             STATUS              PORTS                    NAMES</div><div class="line">4e2ab928a683        dh/casebase:17.09.16.1   &quot;node app.js&quot;            14 minutes ago      Up 14 minutes       0.0.0.0:8001-&gt;8001/tcp   casebaseapp</div><div class="line">66e6ba5f5873        mongo                    &quot;docker-entrypoint...&quot;   17 minutes ago      Up 17 minutes       27017/tcp                casebasedb</div></pre></td></tr></table></figure></p>
-<p>查看端口监听情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ sudo netstat -lntp</div><div class="line">Active Internet connections (only servers)</div><div class="line">Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name</div><div class="line">tcp6       0      0 :::8001                 :::*                    LISTEN      32211/docker-proxy</div></pre></td></tr></table></figure></p>
-<p>访问宿主机ip:8001,此时已可以访问web项目了</p>
-<p><center><br><a href="mailto:hugh.dong@outlook.com" class="my-btn-contact" target="_blank" rel="external">联系博主</a><br></center><br><img src="http://blog.webmad.net/images/guide.png" alt="img_guide"></p>
+        <p><img src="http://blog.webmad.net/images/17.10.21.1/abstract.png" alt="img_noborder"><br><a id="more"></a></p>
+<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>程序运行后,在第一行提示”Please Enter a Decimal Number:”<br>接收从键盘键入的一个介于0~65535之间的十进制数,以非数字字符作为输入结束标志;<br>将此十进制数转化成二进制数，存放在BX寄存器中;<br>若此数为0,则退出程序;若此数不为0,在下一行显示”The Hexidecimal is “和它的十六进制格式表示值;<br>返回程序开始处，再次显示输入提示;<br>十进制数输入过程/十六进制数显示过程/回车换行用子程序实现.</p>
+<h2 id="程序流程图"><a href="#程序流程图" class="headerlink" title="程序流程图"></a>程序流程图</h2><p><img src="http://blog.webmad.net/images/17.10.21.1/1.png" alt="img_shadow"></p>
+<h2 id="程序代码"><a href="#程序代码" class="headerlink" title="程序代码"></a>程序代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div></pre></td><td class="code"><pre><div class="line">.model small</div><div class="line">.data</div><div class="line">array1 db 5 dup(0)</div><div class="line">msg1   db &quot;Please Enter a Decimal Number:&quot;,&apos;$&apos;</div><div class="line">msg2   db &quot;The Hexidecimal is &quot;,&apos;$&apos;</div><div class="line">.code</div><div class="line">.startup</div><div class="line">    JMP print_str</div><div class="line">    MOV AX,@DATA</div><div class="line">    MOV DS,AX</div><div class="line">print_str:;打印第一行字</div><div class="line">    LEA DX,msg1</div><div class="line">    MOV AH,9</div><div class="line">    INT 21H</div><div class="line">    MOV BX,0</div><div class="line">    JMP input_num</div><div class="line">input_num:;输入数字</div><div class="line">    MOV AH,1</div><div class="line">    INT 21H</div><div class="line">    MOV AH,0</div><div class="line">    MOV CL,0</div><div class="line">    JMP judge1</div><div class="line">judge1:;判断ascii&gt;30H(0)</div><div class="line">    CMP AL,30H</div><div class="line">    JNC judge2</div><div class="line">    JMP done</div><div class="line">judge2:;判断ascii&lt;=3AH(9)</div><div class="line">    CMP AL,3AH</div><div class="line">    JC  save_num</div><div class="line">    JMP done</div><div class="line">save_num:;将输入的数字拼成整数</div><div class="line">    INC CH</div><div class="line">    MOV CL,AL</div><div class="line">    SUB CL,30H</div><div class="line">    MOV AX,BX</div><div class="line">    MOV DX,10</div><div class="line">    MUL DX</div><div class="line">    MOV BX,AX</div><div class="line">    ADD BL,CL</div><div class="line">    MOV AX,0</div><div class="line">    CMP CH,5</div><div class="line">    JB input_num</div><div class="line">    JMP done</div><div class="line">convert_num:;10-&gt;16进制转换</div><div class="line">    MOV DX,0</div><div class="line">    MOV AX,BX</div><div class="line">    MOV CX,10H</div><div class="line">    DIV CX</div><div class="line">    MOV BX,AX</div><div class="line">    CMP DX,0AH</div><div class="line">    JB ascii_num</div><div class="line">    JMP ascii_alphabet</div><div class="line">ascii_num:</div><div class="line">    ADD DX,30H</div><div class="line">    JMP reverse_num</div><div class="line">ascii_alphabet:</div><div class="line">    ADD DX,37H</div><div class="line">    JMP reverse_num</div><div class="line">reverse_num:;余数逆序存储进数组,5,4,3,2,1</div><div class="line">    DEC SI</div><div class="line">    MOV [SI],DL</div><div class="line">    CMP BX,0</div><div class="line">    JBE done_arr</div><div class="line">    JMP convert_num</div><div class="line">done_arr:</div><div class="line">    LEA SI,array1</div><div class="line">    JMP print_arr</div><div class="line">print_arr:;打印数组</div><div class="line">    ADD SI,1</div><div class="line">    CMP Byte PTR [SI],0H</div><div class="line">    JE print_arr</div><div class="line">    MOV AH,2</div><div class="line">    MOV DL,Byte PTR [SI]</div><div class="line">    INT 21H</div><div class="line">    CMP SI,offset array1+4</div><div class="line">    JE quit</div><div class="line">    JMP print_arr</div><div class="line">done:;输出第二行文字并准备数字转换</div><div class="line">    CMP BX,0</div><div class="line">    JBE quit</div><div class="line">    MOV AH,02H</div><div class="line">    MOV DL,0DH</div><div class="line">    INT 21H</div><div class="line">    MOV AH,02H</div><div class="line">    MOV DL,0AH</div><div class="line">    INT 21H</div><div class="line">    LEA DX,msg2</div><div class="line">    MOV AH,9</div><div class="line">    INT 21H</div><div class="line">    LEA SI,array1</div><div class="line">    ADD SI,5</div><div class="line">    JMP convert_num</div><div class="line">quit:</div><div class="line">.exit</div><div class="line">end</div></pre></td></tr></table></figure>
+<center><br><a href="mailto:hugh.dong@outlook.com" class="my-btn-contact" target="_blank" rel="external">联系博主</a><br></center>
+
+<p><img src="http://blog.webmad.net/images/guide.png" alt="img_guide"></p>
 
       
     </div>
@@ -405,11 +385,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Docker/" rel="tag"># Docker</a>
+            <a href="/tags/汇编/" rel="tag"># 汇编</a>
           
-            <a href="/tags/Nodejs/" rel="tag"># Nodejs</a>
-          
-            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+            <a href="/tags/进制转换/" rel="tag"># 进制转换</a>
           
         </div>
       
@@ -421,8 +399,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/10/14/Photoshop 简笔效果/" rel="next" title="Photoshop 简笔效果">
-                <i class="fa fa-chevron-left"></i> Photoshop 简笔效果
+              <a href="/2017/10/16/网页中GIF不循环播放解决方案/" rel="next" title="网页中GIF不循环播放解决方案">
+                <i class="fa fa-chevron-left"></i> 网页中GIF不循环播放解决方案
               </a>
             
           </div>
@@ -430,10 +408,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/10/14/Docker配置Hexo+Git+Nginx/" rel="prev" title="Docker配置Hexo+Git+Nginx">
-                Docker配置Hexo+Git+Nginx <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -593,7 +567,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前期准备"><span class="nav-number">3.</span> <span class="nav-text">前期准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拉取镜像"><span class="nav-number">4.</span> <span class="nav-text">拉取镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建Web镜像"><span class="nav-number">5.</span> <span class="nav-text">构建Web镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证容器"><span class="nav-number">6.</span> <span class="nav-text">验证容器</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序流程图"><span class="nav-number">2.</span> <span class="nav-text">程序流程图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序代码"><span class="nav-number">3.</span> <span class="nav-text">程序代码</span></a></li></ol></div>
             
 
           </div>
