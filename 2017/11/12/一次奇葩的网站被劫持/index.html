@@ -95,9 +95,10 @@
 <meta property="og:image" content="http://blog.webmad.net/images/17.11.12.1/33.png">
 <meta property="og:image" content="http://blog.webmad.net/images/17.11.12.1/7.png">
 <meta property="og:image" content="http://blog.webmad.net/images/17.11.12.1/8.png">
+<meta property="og:image" content="http://blog.webmad.net/images/17.11.12.1/9.png">
 <meta property="og:image" content="http://blog.webmad.net/images/17.11.12.1/44.png">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2017-11-11T18:17:48.360Z">
+<meta property="og:updated_time" content="2017-11-11T18:28:51.939Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一次奇葩的网站被劫持">
 <meta name="twitter:image" content="http://blog.webmad.net/images/17.11.12.1/abstract.png">
@@ -381,9 +382,7 @@
 <p><img src="http://blog.webmad.net/images/17.11.12.1/6.png" alt="img_shadow"><br>为什么会有后台上传js这种功能啊喂!!!<br>千里送人头, 礼轻情意重<br><img src="http://blog.webmad.net/images/17.11.12.1/33.png" alt="img_shadow"><br>控制台运行一下代码拼出了指向了”微软”域名的请求</p>
 <p><img src="http://blog.webmad.net/images/17.11.12.1/7.png" alt="img_shadow"><br>可是为什么要指向微软呢???<br>敲黑板, 仔细看域名!<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://www.microsoftware.link/ 这是恶意网站</div><div class="line">https://www.microsoft.com/ 这是微软网站</div></pre></td></tr></table></figure></p>
 <p>顺着域名摸到了一个后台登录页面,</p>
-<p><img src="http://blog.webmad.net/images/17.11.12.1/8.png" alt="img_shadow"><br>结合请求中的Web_id,大概摸清了劫持事件的流程:<br>攻击者通过网站管理被劫持的站点和目标站点<br>利用ASPCMS漏洞上传假的JQuery文件 → 向攻击者管理的网站发起请求 → 接受请求返回后跳转到指定网站</p>
-<p>网上类似的案例 <a href="https://segmentfault.com/q/1010000008709340" target="_blank" rel="external"><strong>js源文件中被写入了恶意代码，如何找出？</strong></a></p>
-<p>经过一晚上奇葩事件之后先行恢复了网站的运行, 恶意请求的内容会继续研究下去<br>如果不是因为汪酱公司没人会用JQuery…<br>我想, 应该要拖很久很久才能解决掉这次的事件吧<br><img src="http://blog.webmad.net/images/17.11.12.1/44.png" alt="img_shadow"><br>未完待续,敬请期待</p>
+<p><img src="http://blog.webmad.net/images/17.11.12.1/8.png" alt="img_shadow"><br>结合请求中的Web_id,大概摸清了劫持事件的流程:<br>攻击者通过网站管理被劫持的站点和目标站点<br>利用ASPCMS漏洞上传假的JQuery文件 → 向攻击者管理的网站发起请求 → 接受请求返回后跳转到指定网站<br>网上类似的案例 <a href="https://segmentfault.com/q/1010000008709340" target="_blank" rel="external"><strong>js源文件中被写入了恶意代码，如何找出？</strong></a><br><img src="http://blog.webmad.net/images/17.11.12.1/9.png" alt="img_shadow"><br>经过一晚上奇葩事件之后先行恢复了网站的运行, 恶意请求的内容会继续研究下去<br>如果不是因为汪酱公司没人会用JQuery…<br>我想, 应该要拖很久很久才能解决掉这次的事件吧<br><img src="http://blog.webmad.net/images/17.11.12.1/44.png" alt="img_shadow"><br>未完待续,敬请期待</p>
 <center><br><a href="mailto:hugh.dong@outlook.com" class="my-btn-contact" target="_blank" rel="external">联系博主</a><br><br></center>
 
 <p><img src="http://blog.webmad.net/images/guide.png" alt="img_guide"></p>
