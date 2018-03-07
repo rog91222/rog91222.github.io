@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="数据清洗,Unicode,Python," />
+  <meta name="keywords" content="Python,数据清洗,Unicode," />
 
 
 
@@ -77,7 +77,7 @@
 
 
 
-<meta name="keywords" content="数据清洗,Unicode,Python">
+<meta name="keywords" content="Python,数据清洗,Unicode">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python清洗Unicode数据">
 <meta property="og:url" content="http://blog.webmad.net/2018/03/07/Python清洗Unicode文本/index.html">
@@ -86,7 +86,7 @@
 <meta property="og:image" content="http://blog.webmad.net/images/18.01.20.2/abstract.jpg">
 <meta property="og:image" content="http://blog.webmad.net/images/18.01.20.2/1.png">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2018-03-07T01:28:47.013Z">
+<meta property="og:updated_time" content="2018-03-07T01:31:09.013Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python清洗Unicode数据">
 <meta name="twitter:image" content="http://blog.webmad.net/images/18.01.20.2/abstract.jpg">
@@ -366,9 +366,259 @@
 <p>爬虫从网站上爬取的内容在读写操作时经常会报以下错误：<br>UnicodeEncodeError: ‘gbk’ codec can’t encode character ‘\u200b’ in position 7: illegal multibyte sequence<br>所以需要我们对数据Unicode进行清洗，排除文章内异常的Unicode符号。</p>
 </blockquote>
 <h2 id="清洗思路"><a href="#清洗思路" class="headerlink" title="清洗思路"></a>清洗思路</h2><p>我的思路是用正则表达式来匹配常用字，不在范围内的Unicode编码则去除。<br>.compile(u”[^常用字范围]+”)匹配到非范围内字符后，<br>.sub()方法将特殊字符替换成空</p>
-<h2 id="Unicode范围"><a href="#Unicode范围" class="headerlink" title="Unicode范围"></a>Unicode范围</h2><p>常用范围<br>|名称|范围|<br>|:—-|:——|<br>|中文|\u4e00-\u9fa5|<br>|日文平假名|\u3040-\u309f|<br>|日文片假名|\u30a0-\u30ff|<br>|韩文|\uac00-\ud7ff|<br>|英文字母|\u0041-\u005A\u0061\u007A|<br>|数字|\u0030-\u0039|<br>|英文标点|未知,使用转移符号匹配 !\@#\$\%\^\&amp;*()-\=[]{}\|\;\’\:\”\,.\/\&lt;>\?\/*+|<br>|中文标点|\u3000-\u303f\ufb00-\ufffd|<br>|中文标点|\u3002\uFF1F\uFF01\uFF0C\u3001\uFF1B\uFF1A\u300C\u300D\u300E\u300F\u2018\u2019\u201C\u201D\uFF08\uFF09\u3014\u3015\u3010\u3011\u2014\u2026\u2013\uFF0E\u300A\u300B\u3008\u3009|</p>
-<p>中文标点对应<br>|名称|Unicode|符号|<br>|:—-|:——|:——|<br>|句号|\u3002|。|　<br>|问号|\uFF1F|？|<br>|叹号|\uFF01|！|<br>|逗号|\uFF0C|，|<br>|顿号|\u3001|、|<br>|分号|\uFF1B|；|<br>|冒号|\uFF1A|：|<br>|引号|\u300C|「|<br>||\u300D|」|<br>||\u300E|『|<br>| |\u300F|』|<br>||\u2018|‘|<br>| |\u2019|’|<br>||\u201C|“|<br>| |\u201D|”|<br>|括号|\uFF08|（|<br>| |\uFF09|）|<br>||\u3014|〔|<br>| |\u3015|〕|<br>||\u3010|【|<br>| |\u3011|】|<br>|破折号|\u2014|——|<br>|省略号|\u2026|……|<br>|连接号|\u2013|–|<br>|间隔号|\uFF0E|．|<br>|书名号|\u300A|《|<br>| |\u300B|》|<br>||\u3008|〈|<br>| |\u3009|〉|</p>
-<p>非英文语系字符范围<br>|范围|编码|说明|<br>|:—-|:——|:——|<br>|2E80~33FFh|中日韩符号区|收容康熙字典部首、中日韩辅助部首、注音符号、日本假名、韩文音符，中日韩的符号、标点、带圈或带括符文数字、月份，以及日本的假名组合、单位、年号、月份、日期、时间等。|<br>|3400~4DFFh|中日韩认同文字扩充A区|中日韩认同表意文字扩充A区，总计收容6,582个中日韩汉字。|<br>|4E00~9FFFh|中日韩认同表意文字区|中日韩认同表意文字区，总计收容20,902个中日韩汉字。|<br>|A000~A4FFh|彝族文字区|收容中国南方彝族文字和字根|<br>|AC00~D7FFh|韩文拼音组合字区|收容以韩文音符拼成的文字|<br>|F900~FAFFh|中日韩兼容表意文字区|总计收容302个中日韩汉字|<br>|FB00~FFFDh|文字表现形式区|收容组合拉丁文字、希伯来文、阿拉伯文、中日韩直式标点、小符号、半角符号、全角符号等。|</p>
+<h2 id="Unicode范围"><a href="#Unicode范围" class="headerlink" title="Unicode范围"></a>Unicode范围</h2><p>常用范围</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">名称</th>
+<th style="text-align:left">范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">中文</td>
+<td style="text-align:left">\u4e00-\u9fa5</td>
+</tr>
+<tr>
+<td style="text-align:left">日文平假名</td>
+<td style="text-align:left">\u3040-\u309f</td>
+</tr>
+<tr>
+<td style="text-align:left">日文片假名</td>
+<td style="text-align:left">\u30a0-\u30ff</td>
+</tr>
+<tr>
+<td style="text-align:left">韩文</td>
+<td style="text-align:left">\uac00-\ud7ff</td>
+</tr>
+<tr>
+<td style="text-align:left">英文字母</td>
+<td style="text-align:left">\u0041-\u005A\u0061\u007A</td>
+</tr>
+<tr>
+<td style="text-align:left">数字</td>
+<td style="text-align:left">\u0030-\u0039</td>
+</tr>
+<tr>
+<td style="text-align:left">英文标点</td>
+<td style="text-align:left">未知,使用转移符号匹配 !\@#\$\%\^\&amp;*()-\=[]{}\\</td>
+<td>\;\’\:\”\,.\/\&lt;>\?\/*+</td>
+</tr>
+<tr>
+<td style="text-align:left">中文标点</td>
+<td style="text-align:left">\u3000-\u303f\ufb00-\ufffd</td>
+</tr>
+<tr>
+<td style="text-align:left">中文标点</td>
+<td style="text-align:left">\u3002\uFF1F\uFF01\uFF0C\u3001\uFF1B\uFF1A\u300C\u300D\u300E\u300F\u2018\u2019\u201C\u201D\uFF08\uFF09\u3014\u3015\u3010\u3011\u2014\u2026\u2013\uFF0E\u300A\u300B\u3008\u3009</td>
+</tr>
+</tbody>
+</table>
+<p>中文标点对应</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">名称</th>
+<th style="text-align:left">Unicode</th>
+<th style="text-align:left">符号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">句号</td>
+<td style="text-align:left">\u3002</td>
+<td style="text-align:left">。</td>
+<td>　</td>
+</tr>
+<tr>
+<td style="text-align:left">问号</td>
+<td style="text-align:left">\uFF1F</td>
+<td style="text-align:left">？</td>
+</tr>
+<tr>
+<td style="text-align:left">叹号</td>
+<td style="text-align:left">\uFF01</td>
+<td style="text-align:left">！</td>
+</tr>
+<tr>
+<td style="text-align:left">逗号</td>
+<td style="text-align:left">\uFF0C</td>
+<td style="text-align:left">，</td>
+</tr>
+<tr>
+<td style="text-align:left">顿号</td>
+<td style="text-align:left">\u3001</td>
+<td style="text-align:left">、</td>
+</tr>
+<tr>
+<td style="text-align:left">分号</td>
+<td style="text-align:left">\uFF1B</td>
+<td style="text-align:left">；</td>
+</tr>
+<tr>
+<td style="text-align:left">冒号</td>
+<td style="text-align:left">\uFF1A</td>
+<td style="text-align:left">：</td>
+</tr>
+<tr>
+<td style="text-align:left">引号</td>
+<td style="text-align:left">\u300C</td>
+<td style="text-align:left">「</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">\u300D</td>
+<td style="text-align:left">」</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">\u300E</td>
+<td style="text-align:left">『</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">\u300F</td>
+<td style="text-align:left">』</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">\u2018</td>
+<td style="text-align:left">‘</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">\u2019</td>
+<td style="text-align:left">’</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">\u201C</td>
+<td style="text-align:left">“</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">\u201D</td>
+<td style="text-align:left">”</td>
+</tr>
+<tr>
+<td style="text-align:left">括号</td>
+<td style="text-align:left">\uFF08</td>
+<td style="text-align:left">（</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">\uFF09</td>
+<td style="text-align:left">）</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">\u3014</td>
+<td style="text-align:left">〔</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">\u3015</td>
+<td style="text-align:left">〕</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">\u3010</td>
+<td style="text-align:left">【</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">\u3011</td>
+<td style="text-align:left">】</td>
+</tr>
+<tr>
+<td style="text-align:left">破折号</td>
+<td style="text-align:left">\u2014</td>
+<td style="text-align:left">——</td>
+</tr>
+<tr>
+<td style="text-align:left">省略号</td>
+<td style="text-align:left">\u2026</td>
+<td style="text-align:left">……</td>
+</tr>
+<tr>
+<td style="text-align:left">连接号</td>
+<td style="text-align:left">\u2013</td>
+<td style="text-align:left">–</td>
+</tr>
+<tr>
+<td style="text-align:left">间隔号</td>
+<td style="text-align:left">\uFF0E</td>
+<td style="text-align:left">．</td>
+</tr>
+<tr>
+<td style="text-align:left">书名号</td>
+<td style="text-align:left">\u300A</td>
+<td style="text-align:left">《</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">\u300B</td>
+<td style="text-align:left">》</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">\u3008</td>
+<td style="text-align:left">〈</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">\u3009</td>
+<td style="text-align:left">〉</td>
+</tr>
+</tbody>
+</table>
+<p>非英文语系字符范围</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">范围</th>
+<th style="text-align:left">编码</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">2E80~33FFh</td>
+<td style="text-align:left">中日韩符号区</td>
+<td style="text-align:left">收容康熙字典部首、中日韩辅助部首、注音符号、日本假名、韩文音符，中日韩的符号、标点、带圈或带括符文数字、月份，以及日本的假名组合、单位、年号、月份、日期、时间等。</td>
+</tr>
+<tr>
+<td style="text-align:left">3400~4DFFh</td>
+<td style="text-align:left">中日韩认同文字扩充A区</td>
+<td style="text-align:left">中日韩认同表意文字扩充A区，总计收容6,582个中日韩汉字。</td>
+</tr>
+<tr>
+<td style="text-align:left">4E00~9FFFh</td>
+<td style="text-align:left">中日韩认同表意文字区</td>
+<td style="text-align:left">中日韩认同表意文字区，总计收容20,902个中日韩汉字。</td>
+</tr>
+<tr>
+<td style="text-align:left">A000~A4FFh</td>
+<td style="text-align:left">彝族文字区</td>
+<td style="text-align:left">收容中国南方彝族文字和字根</td>
+</tr>
+<tr>
+<td style="text-align:left">AC00~D7FFh</td>
+<td style="text-align:left">韩文拼音组合字区</td>
+<td style="text-align:left">收容以韩文音符拼成的文字</td>
+</tr>
+<tr>
+<td style="text-align:left">F900~FAFFh</td>
+<td style="text-align:left">中日韩兼容表意文字区</td>
+<td style="text-align:left">总计收容302个中日韩汉字</td>
+</tr>
+<tr>
+<td style="text-align:left">FB00~FFFDh</td>
+<td style="text-align:left">文字表现形式区</td>
+<td style="text-align:left">收容组合拉丁文字、希伯来文、阿拉伯文、中日韩直式标点、小符号、半角符号、全角符号等。</td>
+</tr>
+</tbody>
+</table>
 <h2 id="使用样例"><a href="#使用样例" class="headerlink" title="使用样例"></a>使用样例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">import re</div><div class="line"></div><div class="line">str1 = &apos;33?3-3aa.，a中*文,a——a。a_+】!@@#$%^&amp;*()(_++-[]&#123;&#125;\|&quot;;/&lt;&gt;.&apos;</div><div class="line"></div><div class="line">print(re.compile(u&quot;[^\u4e00-\u9fa5]+&quot;).sub(&apos;&apos;, str1))  # 中文</div><div class="line">print(re.compile(u&quot;[^\u0041-\u005A|\u0061\u007A]+&quot;).sub(&apos;&apos;, str1))  # 英文</div><div class="line">print(re.compile(u&quot;[^\u0030-\u0039]+&quot;).sub(&apos;&apos;, str1))  # 数字</div><div class="line">print(re.compile(u&quot;[^\u3000-\u303f|\ufb00-\ufffd]+&quot;).sub(&apos;&apos;, str1))  # 中文标点</div><div class="line">print(re.compile(u&quot;[^\u3002|\uFF1F|\uFF01|\uFF0C|\u3001|\uFF1B|\uFF1A|\u300C|\u300D|\u300E|\u300F|\u2018|\u2019|\u201C|\u201D|\uFF08|\uFF09|\u3014|\u3015|\u3010|\u3011|\u2014|\u2026|\u2013|\uFF0E|\u300A|\u300B|\u3008|\u3009]+&quot;).sub(&apos;&apos;, str1))  # 中文标点</div><div class="line">print(re.compile(u&quot;[^\!\@\#\$\%\^\&amp;\*\(\)\-\=\[\]\&#123;\&#125;\\\|\;\&apos;\:\&quot;\,\.\/\&lt;\&gt;\?\/\*\+]+&quot;).sub(&apos;&apos;,str1))  # 英文标点</div></pre></td></tr></table></figure>
 <p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">中文</div><div class="line">aaaaaa|</div><div class="line">3333</div><div class="line">，。】|</div><div class="line">，——。】|</div><div class="line">?-.*,+!@@#$%^&amp;*()(++-[]&#123;&#125;\|&quot;;/&lt;&gt;.</div></pre></td></tr></table></figure></p>
 <p><img src="http://blog.webmad.net/images/18.01.20.2/1.png" alt="img_shadow"></p>
@@ -392,11 +642,11 @@
       
         <div class="post-tags">
           
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
             <a href="/tags/数据清洗/" rel="tag"># 数据清洗</a>
           
             <a href="/tags/Unicode/" rel="tag"># Unicode</a>
-          
-            <a href="/tags/Python/" rel="tag"># Python</a>
           
         </div>
       
@@ -408,8 +658,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/02/红海行动影评/" rel="next" title="强者无敌,大国无敌">
-                <i class="fa fa-chevron-left"></i> 强者无敌,大国无敌
+              <a href="/2018/03/02/紫罗兰永恒花园漫评/" rel="next" title="[待更新]京都手中的美和故事">
+                <i class="fa fa-chevron-left"></i> [待更新]京都手中的美和故事
               </a>
             
           </div>
