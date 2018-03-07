@@ -85,7 +85,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.webmad.net/images/18.03.07.1/abstract.jpg">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2018-03-07T13:06:51.132Z">
+<meta property="og:updated_time" content="2018-03-07T13:50:23.492Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bug集中寻路帖">
 <meta name="twitter:image" content="http://blog.webmad.net/images/18.03.07.1/abstract.jpg">
@@ -435,6 +435,22 @@
 <td style="text-align:left">无</td>
 <td style="text-align:left">在Vue中引入Bootstrap的table-striped样式失效（正确引入bootstrap,但唯独不显示table-striped的样式）</td>
 <td style="text-align:left">在<table>标签中加上<tbody>,<a href="https://stackoverflow.com/questions/40675756/bootstrap-table-css-not-working-with-vue-js-component" target="_blank" rel="external">参考链接</a></tbody></table></td>
+</tr>
+</tbody>
+</table>
+<h2 id="Pymongo"><a href="#Pymongo" class="headerlink" title="Pymongo"></a>Pymongo</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">报错信息</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">解决方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">TypeError: object of type ‘Cursor’ has no len()</td>
+<td style="text-align:left">在pymongo查询出的结果直接给items是无法使用len()来判断内容的,因为返回的pymongo的对象</td>
+<td style="text-align:left">items = db[‘collections’].find({}) items.count() 来替换len(items)</td>
 </tr>
 </tbody>
 </table>
