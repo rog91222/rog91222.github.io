@@ -83,12 +83,13 @@
 <meta property="og:url" content="http://blog.webmad.net/2018/03/07/BUG集中帖/index.html">
 <meta property="og:site_name" content="Hugh Dong">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://blog.webmad.net/images/18.03.07.1/abstract.jpg">
+<meta property="og:image" content="http://blog.webmad.net/images/18.03.07.2/abstract.jpg">
+<meta property="og:image" content="http://blog.webmad.net/images/18.03.07.2/1.jpg">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2018-03-07T13:50:23.492Z">
+<meta property="og:updated_time" content="2018-03-07T14:02:44.660Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bug集中寻路帖">
-<meta name="twitter:image" content="http://blog.webmad.net/images/18.03.07.1/abstract.jpg">
+<meta name="twitter:image" content="http://blog.webmad.net/images/18.03.07.2/abstract.jpg">
 
 
 
@@ -360,7 +361,7 @@
       
 
       
-        <p><img src="http://blog.webmad.net/images/18.03.07.1/abstract.jpg" alt="img_noborder"><br><a id="more"></a></p>
+        <p><img src="http://blog.webmad.net/images/18.03.07.2/abstract.jpg" alt="img_noborder"><br><a id="more"></a></p>
 <blockquote>
 <p>集中近期已解决的BUG，希望能够帮到你</p>
 </blockquote>
@@ -411,7 +412,7 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left">json.loads(df.T.to_json().values()) File “D:\Anaconda\lib\site-packages\pandas\core\generic.py”, line 1245, in to_json lines=lines) File “D:\Anaconda\lib\site-packages\pandas\io\json\json.py”, line 46, in to_json date_unit=date_unit, default_handler=default_handler).write() File “D:\Anaconda\lib\site-packages\pandas\io\json\json.py”, line 90, in write default_handler=self.default_handler OverflowError: Unterminated UTF-8 sequence when encoding string</td>
+<td style="text-align:left">json.loads(df.T.to_json().values()) default_handler=self.default_handler OverflowError: Unterminated UTF-8 sequence when encoding string</td>
 <td style="text-align:left">未知</td>
 <td style="text-align:left">json.loads(df.T.to_json().values()) 改成 json.loads( df.T.to_json( default_handler=str )) .values()</td>
 </tr>
@@ -419,6 +420,10 @@
 <td style="text-align:left">MemoryError</td>
 <td style="text-align:left">栈溢出</td>
 <td style="text-align:left">将python换成x64</td>
+</tr>
+<tr>
+<td style="text-align:left">default_handler=self.default_handler OverflowError: Could not reserve memory block</td>
+<td style="text-align:left"><img src="http://blog.webmad.net/images/18.03.07.2/1.jpg" alt="img_noborder"></td>
 </tr>
 </tbody>
 </table>
