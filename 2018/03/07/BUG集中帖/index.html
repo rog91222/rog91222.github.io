@@ -79,16 +79,16 @@
 
 <meta name="keywords" content="bug,解决方案">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Bug集中解决帖">
+<meta property="og:title" content="Bug寻路帖">
 <meta property="og:url" content="http://blog.webmad.net/2018/03/07/BUG集中帖/index.html">
 <meta property="og:site_name" content="Hugh Dong">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://blog.webmad.net/images/18.01.20.2/abstract.jpg">
+<meta property="og:image" content="http://blog.webmad.net/images/18.03.07.1/abstract.jpg">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2018-03-07T12:56:41.845Z">
+<meta property="og:updated_time" content="2018-03-07T13:00:37.876Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Bug集中解决帖">
-<meta name="twitter:image" content="http://blog.webmad.net/images/18.01.20.2/abstract.jpg">
+<meta name="twitter:title" content="Bug寻路帖">
+<meta name="twitter:image" content="http://blog.webmad.net/images/18.03.07.1/abstract.jpg">
 
 
 
@@ -124,7 +124,7 @@
 
 
 
-  <title>Bug集中解决帖 | Hugh Dong</title>
+  <title>Bug寻路帖 | Hugh Dong</title>
   
 
 
@@ -288,7 +288,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Bug集中解决帖</h1>
+          <h1 class="post-title" itemprop="name headline">Bug寻路帖</h1>
         
 
         <div class="post-meta">
@@ -360,9 +360,9 @@
       
 
       
-        <p><img src="http://blog.webmad.net/images/18.01.20.2/abstract.jpg" alt="img_noborder"><br><a id="more"></a></p>
+        <p><img src="http://blog.webmad.net/images/18.03.07.1/abstract.jpg" alt="img_noborder"><br><a id="more"></a></p>
 <blockquote>
-<p>集中近期遇到的BUG，共勉</p>
+<p>集中近期已解决的BUG，希望能够帮过你</p>
 </blockquote>
 <h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><table>
 <thead>
@@ -408,7 +408,7 @@
 <tr>
 <td style="text-align:left">json.loads(df.T.to_json().values()) File “D:\Anaconda\lib\site-packages\pandas\core\generic.py”, line 1245, in to_json lines=lines) File “D:\Anaconda\lib\site-packages\pandas\io\json\json.py”, line 46, in to_json date_unit=date_unit, default_handler=default_handler).write() File “D:\Anaconda\lib\site-packages\pandas\io\json\json.py”, line 90, in write default_handler=self.default_handler OverflowError: Unterminated UTF-8 sequence when encoding string</td>
 <td style="text-align:left">未知</td>
-<td style="text-align:left">json.loads(df.T.to_json().values()) 改成这样： json.loads(df.T.to_json(default_handler=str)).values()</td>
+<td style="text-align:left">json.loads(df.T.to_json().values()) 改成 json.loads(df.T.to_json(default_handler=str)).values()</td>
 </tr>
 <tr>
 <td style="text-align:left">MemoryError</td>
@@ -429,7 +429,7 @@
 <tr>
 <td style="text-align:left">无</td>
 <td style="text-align:left">在Vue中引入Bootstrap的table-striped样式失效(正确引入bootstrap,但唯独不显示table-striped的样式)</td>
-<td style="text-align:left"><a href="https://stackoverflow.com/questions/40675756/bootstrap-table-css-not-working-with-vue-js-component" target="_blank" rel="external">在<table>标签中加上<tbody></tbody></table></a></td>
+<td style="text-align:left">在<table>标签中加上<tbody>,<a href="https://stackoverflow.com/questions/40675756/bootstrap-table-css-not-working-with-vue-js-component" target="_blank" rel="external">参考链接</a></tbody></table></td>
 </tr>
 </tbody>
 </table>
