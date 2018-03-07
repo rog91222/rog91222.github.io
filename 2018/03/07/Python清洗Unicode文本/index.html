@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="Python,数据清洗,Unicode," />
+  <meta name="keywords" content="数据清洗,Unicode,Python," />
 
 
 
@@ -77,16 +77,15 @@
 
 
 
-<meta name="keywords" content="Python,数据清洗,Unicode">
+<meta name="keywords" content="数据清洗,Unicode,Python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python清洗Unicode数据">
 <meta property="og:url" content="http://blog.webmad.net/2018/03/07/Python清洗Unicode文本/index.html">
 <meta property="og:site_name" content="Hugh Dong">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.webmad.net/images/18.01.20.2/abstract.jpg">
-<meta property="og:image" content="http://blog.webmad.net/images/18.01.20.2/1.png">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2018-03-07T01:32:38.346Z">
+<meta property="og:updated_time" content="2018-03-07T01:34:38.053Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python清洗Unicode数据">
 <meta name="twitter:image" content="http://blog.webmad.net/images/18.01.20.2/abstract.jpg">
@@ -405,11 +404,7 @@
 </tr>
 <tr>
 <td style="text-align:left">中文标点</td>
-<td style="text-align:left">\u3000-\u303f\ufb00-\ufffd</td>
-</tr>
-<tr>
-<td style="text-align:left">中文标点</td>
-<td style="text-align:left">\u3002\uFF1F\uFF01\uFF0C\u3001\uFF1B\uFF1A\u300C\u300D\u300E\u300F\u2018\u2019\u201C\u201D\uFF08\uFF09\u3014\u3015\u3010\u3011\u2014\u2026\u2013\uFF0E\u300A\u300B\u3008\u3009</td>
+<td style="text-align:left">\u3000-\u303f\ufb00-\ufffd 破折号等匹配不全，可以使用下面的中文标点挨个匹配</td>
 </tr>
 </tbody>
 </table>
@@ -619,7 +614,6 @@
 </table>
 <h2 id="使用样例"><a href="#使用样例" class="headerlink" title="使用样例"></a>使用样例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">import re</div><div class="line"></div><div class="line">str1 = &apos;33?3-3aa.，a中*文,a——a。a_+】!@@#$%^&amp;*()(_++-[]&#123;&#125;\|&quot;;/&lt;&gt;.&apos;</div><div class="line"></div><div class="line">print(re.compile(u&quot;[^\u4e00-\u9fa5]+&quot;).sub(&apos;&apos;, str1))  # 中文</div><div class="line">print(re.compile(u&quot;[^\u0041-\u005A|\u0061\u007A]+&quot;).sub(&apos;&apos;, str1))  # 英文</div><div class="line">print(re.compile(u&quot;[^\u0030-\u0039]+&quot;).sub(&apos;&apos;, str1))  # 数字</div><div class="line">print(re.compile(u&quot;[^\u3000-\u303f|\ufb00-\ufffd]+&quot;).sub(&apos;&apos;, str1))  # 中文标点</div><div class="line">print(re.compile(u&quot;[^\u3002|\uFF1F|\uFF01|\uFF0C|\u3001|\uFF1B|\uFF1A|\u300C|\u300D|\u300E|\u300F|\u2018|\u2019|\u201C|\u201D|\uFF08|\uFF09|\u3014|\u3015|\u3010|\u3011|\u2014|\u2026|\u2013|\uFF0E|\u300A|\u300B|\u3008|\u3009]+&quot;).sub(&apos;&apos;, str1))  # 中文标点</div><div class="line">print(re.compile(u&quot;[^\!\@\#\$\%\^\&amp;\*\(\)\-\=\[\]\&#123;\&#125;\\\|\;\&apos;\:\&quot;\,\.\/\&lt;\&gt;\?\/\*\+]+&quot;).sub(&apos;&apos;,str1))  # 英文标点</div></pre></td></tr></table></figure>
 <p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">中文</div><div class="line">aaaaaa|</div><div class="line">3333</div><div class="line">，。】|</div><div class="line">，——。】|</div><div class="line">?-.*,+!@@#$%^&amp;*()(++-[]&#123;&#125;\|&quot;;/&lt;&gt;.</div></pre></td></tr></table></figure></p>
-<p><img src="http://blog.webmad.net/images/18.01.20.2/1.png" alt="img_shadow"></p>
 <center><br><a href="mailto:hugh.dong@outlook.com" class="my-btn-contact" target="_blank" rel="external">联系博主</a><br><br></center>
 
 <p><img src="http://blog.webmad.net/images/guide.png" alt="img_guide"></p>
@@ -640,11 +634,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Python/" rel="tag"># Python</a>
-          
             <a href="/tags/数据清洗/" rel="tag"># 数据清洗</a>
           
             <a href="/tags/Unicode/" rel="tag"># Unicode</a>
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
           
         </div>
       
