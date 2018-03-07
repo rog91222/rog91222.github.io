@@ -86,7 +86,7 @@
 <meta property="og:image" content="http://blog.webmad.net/images/18.03.07.2/abstract.jpg">
 <meta property="og:image" content="http://blog.webmad.net/images/18.03.07.2/1.jpg">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2018-03-07T14:08:13.461Z">
+<meta property="og:updated_time" content="2018-03-07T14:23:27.809Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bug集中寻路帖">
 <meta name="twitter:image" content="http://blog.webmad.net/images/18.03.07.2/abstract.jpg">
@@ -457,6 +457,11 @@
 <td style="text-align:left">TypeError: object of type ‘Cursor’ has no len()</td>
 <td style="text-align:left">在pymongo查询出的结果直接给items是无法使用len()来判断内容的,因为返回的pymongo的对象</td>
 <td style="text-align:left">items = db[‘collections’].find({}) items.count() 来替换len(items)</td>
+</tr>
+<tr>
+<td style="text-align:left">raise InvalidOperation(‘No operations to execute’) pymongo.errors.InvalidOperation: No operations to execute</td>
+<td style="text-align:left">批量插入操作时如果插入列表为空则会触发报错</td>
+<td style="text-align:left">判断列表为空时退出</td>
 </tr>
 </tbody>
 </table>
