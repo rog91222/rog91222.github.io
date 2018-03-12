@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python,爬虫,Toolkit,数据清洗," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="Python,爬虫,Toolkit,数据清洗">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬虫自然语言清洗组件 v1.0.0">
+<meta property="og:url" content="http://blog.webmad.net/2018/03/12/1803-爬虫清洗工具/index.html">
+<meta property="og:site_name" content="Hugh Dong">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog.webmad.net/images/18.02.28.1/abstract.jpg">
+<meta property="og:image" content="http://blog.webmad.net/images/guide.png">
+<meta property="og:updated_time" content="2018-03-12T14:15:05.866Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="爬虫自然语言清洗组件 v1.0.0">
+<meta name="twitter:image" content="http://blog.webmad.net/images/18.02.28.1/abstract.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"remove","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.webmad.net/2018/03/12/1803-爬虫清洗工具/"/>
+
+
+
+
+
+  <title>爬虫自然语言清洗组件 v1.0.0 | Hugh Dong</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bbf71a40a5a6bb7e9c203f4b44b1f1d8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hugh Dong</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">于学习中挣扎,一生以贯之</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.webmad.net/2018/03/12/1803-爬虫清洗工具/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hugh Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hugh Dong">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">爬虫自然语言清洗组件 v1.0.0</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <!--<span class="post-meta-item-text">发表于</span>-->
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-12T00:00:00+08:00">
+                2018-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <!--<span class="post-meta-item-text">分类于</span>-->
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/「施工中」立ち入り禁止/" itemprop="url" rel="index">
+                    <span itemprop="name">「施工中」立ち入り禁止</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://blog.webmad.net/images/18.02.28.1/abstract.jpg" alt="img_noborder"><br><a id="more"></a></p>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div></pre></td><td class="code"><pre><div class="line">clear.py</div><div class="line">update /18.03.12.1</div><div class="line"></div><div class="line">import pymongo</div><div class="line">import re</div><div class="line">from io import BytesIO</div><div class="line">from PIL import Image</div><div class="line">import requests</div><div class="line"></div><div class="line"></div><div class="line">class Clear_Data():</div><div class="line">    rules = &#123;</div><div class="line">        &apos;xzgov&apos;: &#123;</div><div class="line">            &apos;img&apos;: &#123;</div><div class="line">                &apos;access&apos;: [],</div><div class="line">                &apos;deny&apos;: [&apos;icon_.*?\.gif&apos;, &apos;\.gif&apos;],</div><div class="line">            &#125;,</div><div class="line">            &apos;file&apos;: &#123;</div><div class="line">                &apos;access&apos;: [],</div><div class="line">                &apos;deny&apos;: [&apos;docid&apos;],</div><div class="line">            &#125;,</div><div class="line">            &apos;content&apos;: &#123;</div><div class="line">                &apos;replace&apos;: [&quot;\&apos;,\&apos;&quot;]</div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line">        &apos;jsnu&apos;: &#123;</div><div class="line">            &apos;img&apos;: &#123;</div><div class="line">                &apos;access&apos;: [&apos;_upload\/article&apos;],</div><div class="line">                &apos;deny&apos;: [&apos;icon_.*?\.gif&apos;, &apos;\.gif&apos;],</div><div class="line">            &#125;,</div><div class="line">            &apos;file&apos;: &#123;</div><div class="line">                &apos;access&apos;: [],</div><div class="line">                &apos;deny&apos;: [],</div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line">        &apos;xzit&apos;: &#123;</div><div class="line">            &apos;img&apos;: &#123;</div><div class="line">                &apos;access&apos;: [],</div><div class="line">                &apos;deny&apos;: [&apos;comm_20\.jpg&apos;, &apos;doc\.gif&apos;, &apos;arrow3\.gif&apos;, &apos;icon_.*?\.gif&apos;, &apos;\.gif&apos;],</div><div class="line">            &#125;,</div><div class="line">            &apos;file&apos;: &#123;</div><div class="line">                &apos;access&apos;: [],</div><div class="line">                &apos;deny&apos;: [],</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    def __init__(self, item):</div><div class="line">        item.pop(&apos;_id&apos;)</div><div class="line">        self.item = item</div><div class="line"></div><div class="line">    def rep(self):</div><div class="line">        return self.item</div><div class="line"></div><div class="line">    def empty_key(self):</div><div class="line">        fields = [&apos;title&apos;, &apos;url&apos;, &apos;date&apos;, &apos;content&apos;, &apos;category&apos;, &apos;index&apos;, &apos;classify&apos;, &apos;institution&apos;,</div><div class="line">                  &apos;abstract&apos;, &apos;license&apos;, &apos;source&apos;, &apos;file&apos;, &apos;img&apos;]</div><div class="line">        for key, value in self.item.items():</div><div class="line">            if value == None:  # 清除空字段</div><div class="line">                if key == &apos;file&apos; or key == &apos;img&apos;:</div><div class="line">                    self.item[key] = []</div><div class="line">                else:</div><div class="line">                    self.item[key] = &apos;&apos;</div><div class="line"></div><div class="line">        for field in fields:  # 补全字段</div><div class="line">            if not field in self.item:</div><div class="line">                if field == &apos;file&apos; or field == &apos;img&apos;:</div><div class="line">                    self.item[field] = []</div><div class="line">                else:</div><div class="line">                    self.item[field] = &apos;&apos;</div><div class="line">        return self</div><div class="line"></div><div class="line">    def word_wrap(self, key):  # 去除换行空格</div><div class="line">        self.item[key] = self.item[key] \</div><div class="line">            .replace(&apos;\\n&apos;, &apos;&apos;) \</div><div class="line">            .replace(&apos;\\r&apos;, &apos;&apos;) \</div><div class="line">            .replace(&apos;\\t&apos;, &apos;&apos;) \</div><div class="line">            .replace(&apos;\\xa0&apos;, &apos;&apos;) \</div><div class="line">            .replace(&apos;\\xc2&apos;, &apos;&apos;) \</div><div class="line">            .replace(&apos;\\u3000&apos;, &apos;&apos;)</div><div class="line">        return self</div><div class="line"></div><div class="line">    def html_label(self, key):  # 清除html标签</div><div class="line">        self.item[key] = re.compile(r&apos;\&lt;.*?\&gt;&apos;).sub(&apos; &apos;, self.item[key])</div><div class="line">        return self</div><div class="line"></div><div class="line">    def unicode_char(self, key):  # 清除unicode异常字符</div><div class="line">        self.item[key] = re \</div><div class="line">            .compile( \</div><div class="line">            u&quot;[^&quot;</div><div class="line">            u&quot;\u4e00-\u9fa5&quot;</div><div class="line">            u&quot;\u0041-\u005A&quot;</div><div class="line">            u&quot;\u0061-\u007A&quot;</div><div class="line">            u&quot;\u0030-\u0039&quot;</div><div class="line">            u&quot;\u3002\uFF1F\uFF01\uFF0C\u3001\uFF1B\uFF1A\u300C\u300D\u300E\u300F\u2018\u2019\u201C\u201D\uFF08\uFF09\u3014\u3015\u3010\u3011\u2014\u2026\u2013\uFF0E\u300A\u300B\u3008\u3009&quot;</div><div class="line">            u&quot;\!\@\#\$\%\^\&amp;\*\(\)\-\=\[\]\&#123;\&#125;\\\|\;\&apos;\:\&quot;\,\.\/\&lt;\&gt;\?\/\*\+&quot;</div><div class="line">            u&quot;]+&quot;) \</div><div class="line">            .sub(&apos;&apos;, self.item[key])</div><div class="line">        return self</div><div class="line"></div><div class="line">    def catch_file_img(self):</div><div class="line">        file = []</div><div class="line">        img = []</div><div class="line">        img_access_rule = &apos;|&apos;.join(self.rules[self.item[&apos;source&apos;]][&apos;img&apos;][&apos;access&apos;])</div><div class="line">        img_deny_rule = &apos;|&apos;.join(self.rules[self.item[&apos;source&apos;]][&apos;img&apos;][&apos;deny&apos;])</div><div class="line">        file_access_rule = &apos;|&apos;.join(self.rules[self.item[&apos;source&apos;]][&apos;file&apos;][&apos;access&apos;])</div><div class="line">        file_deny_rule = &apos;|&apos;.join(self.rules[self.item[&apos;source&apos;]][&apos;file&apos;][&apos;deny&apos;])</div><div class="line">        domain_name = re \</div><div class="line">            .search(r&apos;(?i)https?:\/\/.*?\/&apos;, self.item[&apos;url&apos;]) \</div><div class="line">            .group()</div><div class="line"></div><div class="line">        for content in re.findall(re.compile(r&apos;\&lt;img.*?src=.*?\&gt;&apos;), self.item[&apos;content&apos;]):</div><div class="line">            if re.search(r&apos;(?i)gif|jpg|png|psd|swf|bmp|emf|gif|webp&apos;, content):</div><div class="line">                _url_ = re \</div><div class="line">                            .search(r&apos;(?i)src=[\&apos;\&quot;].*?[\&apos;\&quot;]&apos;, content) \</div><div class="line">                            .group()[5:-1]</div><div class="line">                if re.search(r&apos;(?i)^http&apos;, _url_):  # 链接头部没有域名则添加</div><div class="line">                    img_url = _url_</div><div class="line">                else:</div><div class="line">                    img_url = domain_name + _url_</div><div class="line"></div><div class="line">                if img_deny_rule and re.search(&apos;(?i)&apos; + img_deny_rule, img_url):  # 匹配deny规则丢弃</div><div class="line">                    continue</div><div class="line">                elif img_access_rule and re.search(&apos;(?i)&apos; + img_access_rule,</div><div class="line">                                                   img_url):  # 匹配access规则丢弃</div><div class="line">                    img.append(img_url)</div><div class="line">                else:  # 其他判断图片尺寸</div><div class="line">                    try:</div><div class="line">                        requests.adapters.DEFAULT_RETRIES = 5</div><div class="line">                        r = requests.get(img_url)</div><div class="line">                        tmp_im = BytesIO(r.content)</div><div class="line">                        im = Image.open(tmp_im)</div><div class="line">                    except OSError:</div><div class="line">                        pass</div><div class="line">                    else:</div><div class="line">                        if im.size[0] * im.size[1] &gt; 10000:</div><div class="line">                            img.append(img_url)</div><div class="line"></div><div class="line">        for content in re.findall(re.compile(r&apos;\&lt;a.*?href=.*?\&gt;&apos;), self.item[&apos;content&apos;]):</div><div class="line">            if re.search(r&apos;(?i)doc|docx|pdf|xlsx|xls|csv|txt|ppt|pptx|zip|rar|7z&apos;, content):</div><div class="line">                _url_ = re \</div><div class="line">                            .search(r&apos;(?i)href=[\&apos;\&quot;].*?[\&apos;\&quot;]&apos;, content) \</div><div class="line">                            .group()[6:-1]</div><div class="line">                if re.search(r&apos;(?i)^http&apos;, _url_):</div><div class="line">                    file_url = _url_</div><div class="line">                else:</div><div class="line">                    file_url = domain_name + _url_</div><div class="line"></div><div class="line">                if file_deny_rule and re.search(&apos;(?i)&apos; + file_deny_rule, file_url):  # 匹配deny规则丢弃</div><div class="line">                    continue</div><div class="line">                elif file_access_rule and re.search(&apos;(?i)&apos; + file_access_rule,</div><div class="line">                                                    file_url):  # 匹配access规则丢弃</div><div class="line">                    file.append(file_url)</div><div class="line">                else:  # 未匹配则加入</div><div class="line">                    print(file_url)</div><div class="line">                    file.append(file_url)</div><div class="line"></div><div class="line">        self.item[&apos;file&apos;] = file</div><div class="line">        self.item[&apos;img&apos;] = img</div><div class="line">        return self</div><div class="line"></div><div class="line">    def special_rules(self):</div><div class="line">        content_replace_rule = &apos;|&apos;.join(self.rules[self.item[&apos;source&apos;]][&apos;content&apos;][&apos;replace&apos;])</div><div class="line">        item[&apos;content&apos;] = item[&apos;content&apos;].replace(content_replace_rule, &apos;&apos;)</div><div class="line">        return self</div></pre></td></tr></table></figure>
+<center><br><a href="mailto:hugh.dong@outlook.com" class="my-btn-contact" target="_blank" rel="external">联系博主</a><br><br></center>
+
+<p><img src="http://blog.webmad.net/images/guide.png" alt="img_guide"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
+          
+            <a href="/tags/Toolkit/" rel="tag"># Toolkit</a>
+          
+            <a href="/tags/数据清洗/" rel="tag"># 数据清洗</a>
+          
+        </div>
+      
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/12/1803-熔炉影评/" rel="next" title="被保护着的丑恶">
+                <i class="fa fa-chevron-left"></i> 被保护着的丑恶
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner" style="padding-top:10px;">
+        <div class="copyright" style="float:left">
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <span id="busuanzi_container_site_uv" class="site-uv">
+    <i class="fa fa-user"></i>
+    <span id="busuanzi_value_site_uv"></span>
+  </span>
+  <span id="busuanzi_container_site_pv" class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span id="busuanzi_value_site_pv"></span>
+  </span>
+</div>
+<div class="copyright" style="float:right">
+
+
+&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+  </span>
+  <a href="http://www.miitbeian.gov.cn">苏ICP备16043304号</a>
+
+  
+</div>
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+-->
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
