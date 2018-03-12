@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="汇编,进制转换," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="汇编,进制转换">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编实现10进制转16进制">
+<meta property="og:url" content="http://blog.webmad.net/2017/10/21/1710-汇编实现10进制转16进制/index.html">
+<meta property="og:site_name" content="Hugh Dong">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog.webmad.net/images/17.10.21.1/abstract.png">
+<meta property="og:image" content="http://blog.webmad.net/images/17.10.21.1/1.png">
+<meta property="og:image" content="http://blog.webmad.net/images/guide.png">
+<meta property="og:updated_time" content="2018-02-13T09:42:54.161Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="汇编实现10进制转16进制">
+<meta name="twitter:image" content="http://blog.webmad.net/images/17.10.21.1/abstract.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"remove","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.webmad.net/2017/10/21/1710-汇编实现10进制转16进制/"/>
+
+
+
+
+
+  <title>汇编实现10进制转16进制 | Hugh Dong</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bbf71a40a5a6bb7e9c203f4b44b1f1d8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hugh Dong</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">于学习中挣扎,一生以贯之</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.webmad.net/2017/10/21/1710-汇编实现10进制转16进制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hugh Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hugh Dong">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">汇编实现10进制转16进制</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <!--<span class="post-meta-item-text">发表于</span>-->
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-21T15:14:00+08:00">
+                2017-10-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <!--<span class="post-meta-item-text">分类于</span>-->
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/「杂的文」/" itemprop="url" rel="index">
+                    <span itemprop="name">「杂的文」</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://blog.webmad.net/images/17.10.21.1/abstract.png" alt="img_noborder"><br><a id="more"></a></p>
+<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>程序运行后,在第一行提示”Please Enter a Decimal Number:”<br>接收从键盘键入的一个介于0~65535之间的十进制数,以非数字字符作为输入结束标志;<br>将此十进制数转化成二进制数，存放在BX寄存器中;<br>若此数为0,则退出程序;若此数不为0,在下一行显示”The Hexidecimal is “和它的十六进制格式表示值;<br>返回程序开始处，再次显示输入提示;<br>十进制数输入过程/十六进制数显示过程/回车换行用子程序实现.</p>
+<h2 id="程序流程图"><a href="#程序流程图" class="headerlink" title="程序流程图"></a>程序流程图</h2><p><img src="http://blog.webmad.net/images/17.10.21.1/1.png" alt="img_shadow"></p>
+<h2 id="程序代码"><a href="#程序代码" class="headerlink" title="程序代码"></a>程序代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div></pre></td><td class="code"><pre><div class="line">.model small</div><div class="line">.data</div><div class="line">array1 db 5 dup(0)</div><div class="line">msg1   db &quot;Please Enter a Decimal Number:&quot;,&apos;$&apos;</div><div class="line">msg2   db &quot;The Hexidecimal is &quot;,&apos;$&apos;</div><div class="line">.code</div><div class="line">.startup</div><div class="line">    JMP print_str</div><div class="line">    MOV AX,@DATA</div><div class="line">    MOV DS,AX</div><div class="line">print_str:;打印第一行字</div><div class="line">    LEA DX,msg1</div><div class="line">    MOV AH,9</div><div class="line">    INT 21H</div><div class="line">    MOV BX,0</div><div class="line">    JMP input_num</div><div class="line">input_num:;输入数字</div><div class="line">    MOV AH,1</div><div class="line">    INT 21H</div><div class="line">    MOV AH,0</div><div class="line">    MOV CL,0</div><div class="line">    JMP judge1</div><div class="line">judge1:;判断ascii&gt;30H(0)</div><div class="line">    CMP AL,30H</div><div class="line">    JNC judge2</div><div class="line">    JMP done</div><div class="line">judge2:;判断ascii&lt;=3AH(9)</div><div class="line">    CMP AL,3AH</div><div class="line">    JC  save_num</div><div class="line">    JMP done</div><div class="line">save_num:;将输入的数字拼成整数</div><div class="line">    INC CH</div><div class="line">    MOV CL,AL</div><div class="line">    SUB CL,30H</div><div class="line">    MOV AX,BX</div><div class="line">    MOV DX,10</div><div class="line">    MUL DX</div><div class="line">    MOV BX,AX</div><div class="line">    ADD BL,CL</div><div class="line">    MOV AX,0</div><div class="line">    CMP CH,5</div><div class="line">    JB input_num</div><div class="line">    JMP done</div><div class="line">convert_num:;10-&gt;16进制转换</div><div class="line">    MOV DX,0</div><div class="line">    MOV AX,BX</div><div class="line">    MOV CX,10H</div><div class="line">    DIV CX</div><div class="line">    MOV BX,AX</div><div class="line">    CMP DX,0AH</div><div class="line">    JB ascii_num</div><div class="line">    JMP ascii_alphabet</div><div class="line">ascii_num:</div><div class="line">    ADD DX,30H</div><div class="line">    JMP reverse_num</div><div class="line">ascii_alphabet:</div><div class="line">    ADD DX,37H</div><div class="line">    JMP reverse_num</div><div class="line">reverse_num:;余数逆序存储进数组,5,4,3,2,1</div><div class="line">    DEC SI</div><div class="line">    MOV [SI],DL</div><div class="line">    CMP BX,0</div><div class="line">    JBE done_arr</div><div class="line">    JMP convert_num</div><div class="line">done_arr:</div><div class="line">    LEA SI,array1</div><div class="line">    JMP print_arr</div><div class="line">print_arr:;打印数组</div><div class="line">    ADD SI,1</div><div class="line">    CMP Byte PTR [SI],0H</div><div class="line">    JE print_arr</div><div class="line">    MOV AH,2</div><div class="line">    MOV DL,Byte PTR [SI]</div><div class="line">    INT 21H</div><div class="line">    CMP SI,offset array1+4</div><div class="line">    JE quit</div><div class="line">    JMP print_arr</div><div class="line">done:;输出第二行文字并准备数字转换</div><div class="line">    CMP BX,0</div><div class="line">    JBE quit</div><div class="line">    MOV AH,02H</div><div class="line">    MOV DL,0DH</div><div class="line">    INT 21H</div><div class="line">    MOV AH,02H</div><div class="line">    MOV DL,0AH</div><div class="line">    INT 21H</div><div class="line">    LEA DX,msg2</div><div class="line">    MOV AH,9</div><div class="line">    INT 21H</div><div class="line">    LEA SI,array1</div><div class="line">    ADD SI,5</div><div class="line">    JMP convert_num</div><div class="line">quit:</div><div class="line">.exit</div><div class="line">end</div></pre></td></tr></table></figure>
+<center><br><a href="mailto:hugh.dong@outlook.com" class="my-btn-contact" target="_blank" rel="external">联系博主</a><br></center>
+
+<p><img src="http://blog.webmad.net/images/guide.png" alt="img_guide"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/汇编/" rel="tag"># 汇编</a>
+          
+            <a href="/tags/进制转换/" rel="tag"># 进制转换</a>
+          
+        </div>
+      
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/21/1710-焦虑指南/" rel="next" title="焦虑指南">
+                <i class="fa fa-chevron-left"></i> 焦虑指南
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/30/1710-C++基础例程/" rel="prev" title="C++基础例程">
+                C++基础例程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner" style="padding-top:10px;">
+        <div class="copyright" style="float:left">
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <span id="busuanzi_container_site_uv" class="site-uv">
+    <i class="fa fa-user"></i>
+    <span id="busuanzi_value_site_uv"></span>
+  </span>
+  <span id="busuanzi_container_site_pv" class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span id="busuanzi_value_site_pv"></span>
+  </span>
+</div>
+<div class="copyright" style="float:right">
+
+
+&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+  </span>
+  <a href="http://www.miitbeian.gov.cn">苏ICP备16043304号</a>
+
+  
+</div>
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+-->
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
