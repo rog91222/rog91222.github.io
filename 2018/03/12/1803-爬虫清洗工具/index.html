@@ -89,7 +89,7 @@
 <meta property="og:image" content="http://blog.webmad.net/images/18.03.12.2/2.png">
 <meta property="og:image" content="http://www.xz.gov.cn/zgxz/UploadFile/751fb56e-53fd-4ce1-af02-a0870748152e/unknow.gif">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2018-03-13T00:46:34.779Z">
+<meta property="og:updated_time" content="2018-03-13T00:47:14.348Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="爬虫自然语言清洗组件 v1.0.0">
 <meta name="twitter:image" content="http://blog.webmad.net/images/18.03.12.2/abstract.png">
@@ -376,7 +376,9 @@
 <p>通用清洗要注意顺序，否则会引起不必要的麻烦</p>
 <p><strong>「空字段补全」</strong><br>优先把空内容(null/None/NaN)转换成空字符串(“”)，这样后续String类型操作不会报出TypeError。<br><img src="http://blog.webmad.net/images/18.03.12.2/1.png" alt="img_noborder"><br>不同网页间爬取下来的字段有些微差别，也将不存在的的字段进行了补全<br><img src="http://blog.webmad.net/images/18.03.12.2/2.png" alt="img_noborder"></p>
 <p><strong>「筛选附件和图片」</strong><br>我爬正文数据下来时是整个正文元素直接获取的，所以也就在这里筛选出正文中的附件和图片<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;...&quot;&gt;</div><div class="line">&lt;img src=&quot;...&quot;&gt;</div></pre></td></tr></table></figure></p>
-<p>通过正则匹配到后判断链接是以http还是./ /开头,如果没有域名则添加该站的域名<br><img src="http://blog.webmad.net/images/18.03.12.2/2.png" alt="img_noborder"><br>最重要的一步是对图片链接进行清洗，如果只是提取链接的话会出现很多小图标<br><img src="http://www.xz.gov.cn/zgxz/UploadFile/751fb56e-53fd-4ce1-af02-a0870748152e/unknow.gif" alt="img_noborder"><br>所以我在类规则中图片的deny和access规则，列表中存放的是正则表达式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">rules = &#123;</div><div class="line">        &apos;spider1&apos;: &#123;</div><div class="line">            &apos;img&apos;: &#123;</div><div class="line">                &apos;access&apos;: [],</div><div class="line">                &apos;deny&apos;: [&apos;icon_.*?\.gif&apos;, &apos;\.gif&apos;],</div><div class="line">            &#125;,</div><div class="line">            &apos;file&apos;: &#123;</div><div class="line">                &apos;access&apos;: [],</div><div class="line">                &apos;deny&apos;: [&apos;docid&apos;],</div><div class="line">            &#125;,</div><div class="line">        &#125;,</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>通过正则匹配到后判断链接是以http还是./ /开头,如果没有域名则添加该站的域名<br><img src="http://blog.webmad.net/images/18.03.12.2/2.png" alt="img_noborder"></p>
+<p>最重要的一步是对图片链接进行清洗，如果只是提取链接的话会出现很多小图标<br><img src="http://www.xz.gov.cn/zgxz/UploadFile/751fb56e-53fd-4ce1-af02-a0870748152e/unknow.gif" alt="img_noborder"></p>
+<p>所以我在类规则中图片的deny和access规则，列表中存放的是正则表达式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">rules = &#123;</div><div class="line">        &apos;spider1&apos;: &#123;</div><div class="line">            &apos;img&apos;: &#123;</div><div class="line">                &apos;access&apos;: [],</div><div class="line">                &apos;deny&apos;: [&apos;icon_.*?\.gif&apos;, &apos;\.gif&apos;],</div><div class="line">            &#125;,</div><div class="line">            &apos;file&apos;: &#123;</div><div class="line">                &apos;access&apos;: [],</div><div class="line">                &apos;deny&apos;: [&apos;docid&apos;],</div><div class="line">            &#125;,</div><div class="line">        &#125;,</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
 <p>优先排除不需要的图片和保留一定需要的图片，剩下的部分使用String.BytesIO()判断图片尺寸，<br>保留长宽像素相乘&gt;10000的图片</p>
 <p><strong>「特殊Unicode符号」</strong><br>见<a href="https://blog.webmad.net/2018/03/07/1803-Python%E6%B8%85%E6%B4%97Unicode%E6%96%87%E6%9C%AC/">Python清洗Unicode数据</a></p>
 <p><strong>「HTML标签注释」</strong><br>使用正则删除掉 &lt;&gt; /**/ 中的内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">re.compile(r&apos;\&lt;.*?\&gt;|\/\*.*?\*\/&apos;).sub(&apos; &apos;, str)</div></pre></td></tr></table></figure></p>
@@ -420,8 +422,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/12/1803-熔炉影评/" rel="next" title="被保护着的丑恶">
-                <i class="fa fa-chevron-left"></i> 被保护着的丑恶
+              <a href="/2018/03/12/1802-爬虫日志工具/" rel="next" title="Scrapy爬虫状态反馈组件 v1.0.0">
+                <i class="fa fa-chevron-left"></i> Scrapy爬虫状态反馈组件 v1.0.0
               </a>
             
           </div>
@@ -429,6 +431,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/12/1803-熔炉影评/" rel="prev" title="被保护着的丑恶">
+                被保护着的丑恶 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
