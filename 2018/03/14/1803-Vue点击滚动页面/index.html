@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="前端,Vue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="前端,Vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue点击滚动页面与$nextTick问题解决">
+<meta property="og:url" content="http://blog.webmad.net/2018/03/14/1803-Vue点击滚动页面/index.html">
+<meta property="og:site_name" content="Hugh Dong">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog.webmad.net/images/18.03.14.1/abstract.jpg">
+<meta property="og:image" content="http://blog.webmad.net/images/18.03.14.1/1.jpg">
+<meta property="og:image" content="http://blog.webmad.net/images/18.03.14.1/2.gif">
+<meta property="og:image" content="http://blog.webmad.net/images/18.03.14.1/1.gif">
+<meta property="og:image" content="http://blog.webmad.net/images/guide.png">
+<meta property="og:updated_time" content="2018-03-14T14:00:18.989Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue点击滚动页面与$nextTick问题解决">
+<meta name="twitter:image" content="http://blog.webmad.net/images/18.03.14.1/abstract.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"remove","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.webmad.net/2018/03/14/1803-Vue点击滚动页面/"/>
+
+
+
+
+
+  <title>Vue点击滚动页面与$nextTick问题解决 | Hugh Dong</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bbf71a40a5a6bb7e9c203f4b44b1f1d8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hugh Dong</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">于学习中挣扎,一生以贯之</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.webmad.net/2018/03/14/1803-Vue点击滚动页面/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hugh Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hugh Dong">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Vue点击滚动页面与$nextTick问题解决</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <!--<span class="post-meta-item-text">发表于</span>-->
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-14T00:00:00+08:00">
+                2018-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <!--<span class="post-meta-item-text">分类于</span>-->
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/「前端」从性冷淡到入土/" itemprop="url" rel="index">
+                    <span itemprop="name">「前端」从性冷淡到入土</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://blog.webmad.net/images/18.03.14.1/abstract.jpg" alt="img_noborder"><br><a id="more"></a></p>
+<blockquote>
+<p>这一篇主要讲述今天使用Vue点击滚动的实现<br>以及Vue在页面渲染未完成时滚动偏移的问题</p>
+</blockquote>
+<h2 id="页面结构"><a href="#页面结构" class="headerlink" title="页面结构"></a>页面结构</h2><p>添加滚动前页面的基本结构 <a href="http://blog.webmad.net/images/18.03.14.1/1.jpg">查看大图</a><br><img src="http://blog.webmad.net/images/18.03.14.1/1.jpg" alt="img_shadow"><br>\<a\>触发绑定样式.table-display，当前点击显示的表格为display:table;其他详情表格为display:none;<br>点击标题时触发方法修改标识，控制样式的绑定。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">    &lt;!-- 略 --&gt;</div><div class="line">        &lt;style&gt;</div><div class="line">            .table-display &#123;display: table;&#125;</div><div class="line">        &lt;/style&gt;</div><div class="line">        &lt;ul&gt;</div><div class="line">            &lt;li v-for=&quot;(item,index) in detailsList&quot;&gt;</div><div class="line">                &lt;div class=&quot;text-wrap&quot;&gt;</div><div class="line">                    &lt;a class=&quot;title-list&quot; @click=&quot;showDetails(index)&quot; ref=&quot;listshow&quot;&gt;</div><div class="line">                        &#123;&#123;item.title&#125;&#125;</div><div class="line">                      &lt;/a&gt;</div><div class="line">                &lt;/div&gt;</div><div class="line">                &lt;table class=&quot;table b-table table-striped&quot; v-bind:class=&quot;&#123;&apos;table-display&apos;:showIndex==index&#125;&quot;&gt;</div><div class="line">                    &lt;!-- 略 --&gt;</div><div class="line">                &lt;/table&gt;</div><div class="line">            &lt;/li&gt;</div><div class="line">        &lt;/ul&gt;</div><div class="line">    &lt;!-- 略 --&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;script&gt;</div><div class="line">  export default&#123;</div><div class="line">    data()&#123;</div><div class="line">      return &#123;</div><div class="line">        showIndex: null,</div><div class="line">      &#125;</div><div class="line">    &#125;,</div><div class="line">    methods: &#123;</div><div class="line">      showDetails: function (index) &#123;</div><div class="line">        if (this.showIndex == index) &#123;</div><div class="line">          this.showIndex = null</div><div class="line">        &#125; else &#123;</div><div class="line">          this.showIndex = index</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></a\></p>
+<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><p>使用<a href="https://cn.vuejs.org/v2/api/#vm-refs" target="_blank" rel="external">vue注册子组件</a>来捕获点击的当前元素<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 略 --&gt;</div><div class="line">  &lt;a class=&quot;title-list&quot; @click=&quot;showDetails(index)&quot; ref=&quot;listshow&quot;&gt;&#123;&#123;item.title&#125;&#125;&lt;/a&gt;</div><div class="line">&lt;!-- 略 --&gt;</div><div class="line">&lt;script&gt;</div><div class="line">  // ...</div><div class="line">  methods: &#123;</div><div class="line">    showDetails: function (index) &#123;</div><div class="line">      console.log(this.$refs.listshow[index])</div><div class="line">    &#125;,</div><div class="line">  &#125;</div><div class="line">  // ...</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p>使用js的scrollTo方法来实现滚动到元素<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// element:获取到的要滚动到顶部的元素</div><div class="line">window.scrollTo(&#123;&quot;behavior&quot;: &quot;smooth&quot;, &quot;top&quot;: element.offsetTop&#125;)</div></pre></td></tr></table></figure></p>
+<p>将滚动事件直接添加到方法中去后出现滚动偏移的问题 <a href="http://blog.webmad.net/images/18.03.14.1/2.gif">查看大图</a><br><img src="http://blog.webmad.net/images/18.03.14.1/2.gif" alt="img_shadow"><br>查找问题的过程就此略过，得到的结论是：</p>
+<blockquote>
+<p>在上一个<table>样式{display:none}与新的<table>样式{display:table}重新渲染完成之前<br>scrollTo事件就用错误offsetTop属性来计算滚动的位置了。<br>那么我们需要在渲染完成后再开始滚动。</table></table></p>
+</blockquote>
+<p>使用setTimeOut()来测试结果是可行的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">showDetails: function (index) &#123;</div><div class="line">  if (this.showIndex == index) &#123;</div><div class="line">    this.showIndex = null</div><div class="line">  &#125; else &#123;</div><div class="line">    this.showIndex = index</div><div class="line">  &#125;</div><div class="line">  setTimeout(()=&gt;&#123;</div><div class="line">    window.scrollTo(&#123;&quot;behavior&quot;: &quot;smooth&quot;, &quot;top&quot;: this.$refs.listshow[index].offsetTop&#125;)</div><div class="line">  &#125;,0)</div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<p>查到Vue官方提供了回调方法<a href="https://cn.vuejs.org/v2/api/#vm-nextTick" target="_blank" rel="external">$nextTick</a><br>作用是将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。<br>修改后的方法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">showDetails: function (index) &#123;</div><div class="line">  if (this.showIndex == index) &#123;</div><div class="line">    this.showIndex = null</div><div class="line">  &#125; else &#123;</div><div class="line">    this.showIndex = index</div><div class="line">  &#125;</div><div class="line">  this.$nextTick(function () &#123;</div><div class="line">    window.scrollTo(&#123;&quot;behavior&quot;: &quot;smooth&quot;, &quot;top&quot;: this.$refs.listshow[index].offsetTop&#125;)</div><div class="line">  &#125;)</div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<p>最终实现效果 <a href="http://blog.webmad.net/images/18.03.14.1/1.gif">查看大图</a><br><img src="http://blog.webmad.net/images/18.03.14.1/1.gif" alt="img_shadow"></p>
+<h2 id="一些题外话"><a href="#一些题外话" class="headerlink" title="一些题外话"></a>一些题外话</h2><p>在找问题的过程中一度想把jquery和vue混用，但总归感觉不是滋味。<br><a href="https://segmentfault.com/u/shen_5843cf5a4a2e2" target="_blank" rel="external">@哔哔肾</a>一句话点醒了我:<a href="https://segmentfault.com/q/1010000007727313" target="_blank" rel="external">附出处</a></p>
+<blockquote>
+<p>DOM就是一盘菜，用刀叉用筷子勺子都一样吃。 </p>
+</blockquote>
+<center><br><a href="mailto:hugh.dong@outlook.com" class="my-btn-contact" target="_blank" rel="external">联系博主</a><br><br></center>
+
+<p><img src="http://blog.webmad.net/images/guide.png" alt="img_guide"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/前端/" rel="tag"># 前端</a>
+          
+            <a href="/tags/Vue/" rel="tag"># Vue</a>
+          
+        </div>
+      
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/12/1802-爬虫日志工具/" rel="next" title="Scrapy爬虫状态反馈组件 v1.0.0">
+                <i class="fa fa-chevron-left"></i> Scrapy爬虫状态反馈组件 v1.0.0
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner" style="padding-top:10px;">
+        <div class="copyright" style="float:left">
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <span id="busuanzi_container_site_uv" class="site-uv">
+    <i class="fa fa-user"></i>
+    <span id="busuanzi_value_site_uv"></span>
+  </span>
+  <span id="busuanzi_container_site_pv" class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span id="busuanzi_value_site_pv"></span>
+  </span>
+</div>
+<div class="copyright" style="float:right">
+
+
+&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+  </span>
+  <a href="http://www.miitbeian.gov.cn">苏ICP备16043304号</a>
+
+  
+</div>
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+-->
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
