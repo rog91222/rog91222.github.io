@@ -85,7 +85,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.webmad.net/images/18.03.20.2/abstract.png">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2018-03-20T13:47:55.011Z">
+<meta property="og:updated_time" content="2018-03-20T13:49:59.060Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB索引优先级的问题">
 <meta name="twitter:image" content="http://blog.webmad.net/images/18.03.20.2/abstract.png">
@@ -362,9 +362,9 @@
       
         <p><img src="http://blog.webmad.net/images/18.03.20.2/abstract.png" alt="img_noborder"><br><a id="more"></a></p>
 <blockquote>
-<p>MongoDB索引是有优先级的，最前面的优先级最高</p>
+<p>在MongoDB复合索引的情况下，写在前面的字段优先级更高，直接影响查询速度。</p>
 </blockquote>
-<p>先说结论：在MongoDB复合索引的情况下，写在前面的字段优先级更高，直接影响查询速度。<br>我的数据库结构是集合 test 中有爬虫数据，字段结构基本相同。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123; </div><div class="line">    &quot;_id&quot; : ObjectId(), </div><div class="line">    &quot;source&quot; : &quot;hhnsh&quot;,      // 区分数据来源</div><div class="line">    &quot;date&quot; : &quot;2001-01-01&quot;,   // 通过日期排序</div><div class="line">    &quot;title&quot; : &quot;&quot;,</div><div class="line">    &quot;url&quot; : &quot;&quot;, </div><div class="line">    &quot;content&quot; : &quot;&quot;, </div><div class="line">    &quot;category&quot; : &quot;&quot;, </div><div class="line">    &quot;file&quot; : []</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我的数据库结构是集合 test 中有爬虫数据，字段结构基本相同。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123; </div><div class="line">    &quot;_id&quot; : ObjectId(), </div><div class="line">    &quot;source&quot; : &quot;hhnsh&quot;,      // 区分数据来源</div><div class="line">    &quot;date&quot; : &quot;2001-01-01&quot;,   // 通过日期排序</div><div class="line">    &quot;title&quot; : &quot;&quot;,</div><div class="line">    &quot;url&quot; : &quot;&quot;, </div><div class="line">    &quot;content&quot; : &quot;&quot;, </div><div class="line">    &quot;category&quot; : &quot;&quot;, </div><div class="line">    &quot;file&quot; : []</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>其中A来源有6w+条，BC来源2000+条，DE来源40条。<br>在查询的过程中遇到的问题是：查询200条，按时间降序的情况下，ABCDE来源的查询速度递减<br>查询语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.test.find(&#123;source:&apos;A&apos;&#125;).sort(&#123;date:-1&#125;).skip(0).limit(200)</div></pre></td></tr></table></figure></p>
 <p>查询速度却差距很大，排查的过程中重建了数据库索引也没有效果，最后在索引的问题上又看了文档，发现MongoDB的索引是有优先级的区分，修改索引字段的顺序后速度都正常了。</p>
 <p>原先建立的索引 db.test.createIndex({date:-1,source:-1}) 下的查询速度：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">GET /details/A 200  90.984 ms - 1468581</div><div class="line">GET /details/B 200 118.387 ms - 968471</div><div class="line">GET /details/B 200 118.387 ms - 968471</div><div class="line">GET /details/D 200 390.227 ms - 176346</div><div class="line">GET /details/D 200 361.100 ms - 340138</div><div class="line">GET /details/E 304 408.459 ms - -</div></pre></td></tr></table></figure></p>
@@ -403,8 +403,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/17/1803-互联网普惠金融书评/" rel="next" title="快速了解互联网+普惠金融">
-                <i class="fa fa-chevron-left"></i> 快速了解互联网+普惠金融
+              <a href="/2018/03/20/1803-重复造轮子/" rel="next" title="记一次凭想象重复造轮子的错误示范">
+                <i class="fa fa-chevron-left"></i> 记一次凭想象重复造轮子的错误示范
               </a>
             
           </div>
@@ -412,10 +412,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/20/1803-重复造轮子/" rel="prev" title="记一次凭想象重复造轮子的错误示范">
-                记一次凭想象重复造轮子的错误示范 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
