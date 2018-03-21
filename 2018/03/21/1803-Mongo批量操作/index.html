@@ -86,7 +86,7 @@
 <meta property="og:image" content="http://blog.webmad.net/images/18.03.21.1/abstract.png">
 <meta property="og:image" content="http://blog.webmad.net/images/18.03.21.1/1.jpg">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2018-03-21T12:08:46.631Z">
+<meta property="og:updated_time" content="2018-03-21T12:10:28.448Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB块操作初体验">
 <meta name="twitter:image" content="http://blog.webmad.net/images/18.03.21.1/abstract.png">
@@ -436,75 +436,21 @@
 <td style="text-align:center">50w</td>
 <td style="text-align:center">1k</td>
 <td style="text-align:center">00:00:09</td>
-<td style="text-align:center">db[‘test’].bulk_write(list(map(InsertOne, items)))</td>
-</tr>
-<tr>
-<td style="text-align:center">bulk_write + InsertOne</td>
-<td style="text-align:center">50w</td>
-<td style="text-align:center">10k</td>
-<td style="text-align:center">00:00:07</td>
-<td style="text-align:center">db[‘test’].bulk_write(list(map(InsertOne, items)))</td>
-</tr>
-<tr>
-<td style="text-align:center">bulk_write + InsertOne</td>
-<td style="text-align:center">50w</td>
-<td style="text-align:center">50w</td>
-<td style="text-align:center">00:00:09</td>
-<td style="text-align:center">db[‘test’].bulk_write(list(map(InsertOne, items)))</td>
-</tr>
-<tr>
-<td style="text-align:center">bulk_write + ReplaceOne</td>
-<td style="text-align:center">50w</td>
-<td style="text-align:center">1k</td>
-<td style="text-align:center">00:00:20</td>
-<td style="text-align:center">db[‘test’].bulk_write(list(map(lambda item: ReplaceOne({‘_id’: item[‘_id’]}, item, upsert=True), items)))</td>
-</tr>
-<tr>
-<td style="text-align:center">bulk_write + ReplaceOne</td>
-<td style="text-align:center">50w</td>
-<td style="text-align:center">10k</td>
-<td style="text-align:center">00:00:21</td>
-<td style="text-align:center">db[‘test’].bulk_write(list(map(lambda item: ReplaceOne({‘_id’: item[‘_id’]}, item, upsert=True), items)))</td>
-</tr>
-<tr>
-<td style="text-align:center">bulk_write + ReplaceOne</td>
-<td style="text-align:center">50w</td>
-<td style="text-align:center">50w</td>
-<td style="text-align:center">00:00:22</td>
-<td style="text-align:center">db[‘test’].bulk_write(list(map(lambda item: ReplaceOne({‘_id’: item[‘_id’]}, item, upsert=True), items)))</td>
-</tr>
-<tr>
-<td style="text-align:center">bulk_write + UpdateOne</td>
-<td style="text-align:center">50w</td>
-<td style="text-align:center">1k</td>
-<td style="text-align:center">00:00:20</td>
-<td style="text-align:center">db[‘test’].bulk_write(list(map(lambda item: UpdateOne({‘_id’: item[‘_id’]}, {‘$set’: {‘i’: item[‘i’]}}, upsert=True),items)))</td>
-</tr>
-<tr>
-<td style="text-align:center">bulk_write + UpdateOne</td>
-<td style="text-align:center">50w</td>
-<td style="text-align:center">10k</td>
-<td style="text-align:center">00:00:21</td>
-<td style="text-align:center">db[‘test’].bulk_write(list(map(lambda item: UpdateOne({‘_id’: item[‘_id’]}, {‘$set’: {‘i’: item[‘i’]}}, upsert=True),items)))</td>
-</tr>
-<tr>
-<td style="text-align:center">bulk_write + UpdateOne</td>
-<td style="text-align:center">50w</td>
-<td style="text-align:center">50w</td>
-<td style="text-align:center">00:00:22</td>
-<td style="text-align:center">db[‘test’].bulk_write(list(map(lambda item: UpdateOne({‘_id’: item[‘_id’]}, {‘$set’: {‘i’: item[‘i’]}}, upsert=True),items)))</td>
-</tr>
-<tr>
-<td style="text-align:center">bulk_write + UpdateOne + InsertOne</td>
-<td style="text-align:center">50w(update)+50w(insert)=100w</td>
-<td style="text-align:center">10k</td>
-<td style="text-align:center">00:00:38</td>
-<td style="text-align:center">db[‘test’].bulk_write(list(map(InsertOne, items1)) + list(map(lambda item: UpdateOne({‘_id’: item[‘_id’]}, {‘$set’: {‘i’: 0}}, upsert=True),items2)))</td>
+<td style="text-align:center"><figure class="highlight plain"><figcaption><span>items)))```|</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">|bulk_write + InsertOne|50w|10k|00:00:07|db\[&apos;test&apos;\].bulk_write(list(map(InsertOne, items)))|</div><div class="line">|bulk_write + InsertOne|50w|50w|00:00:09|db\[&apos;test&apos;\].bulk_write(list(map(InsertOne, items)))|</div><div class="line">|bulk_write + ReplaceOne|50w|1k|00:00:20|db\[&apos;test&apos;\].bulk_write(list(map(lambda item: ReplaceOne(&#123;&apos;_id&apos;: item\[&apos;_id&apos;\]&#125;, item, upsert=True), items)))|</div><div class="line">|bulk_write + ReplaceOne|50w|10k|00:00:21|db\[&apos;test&apos;\].bulk_write(list(map(lambda item: ReplaceOne(&#123;&apos;_id&apos;: item\[&apos;_id&apos;\]&#125;, item, upsert=True), items)))|</div><div class="line">|bulk_write + ReplaceOne|50w|50w|00:00:22|db\[&apos;test&apos;\].bulk_write(list(map(lambda item: ReplaceOne(&#123;&apos;_id&apos;: item\[&apos;_id&apos;\]&#125;, item, upsert=True), items)))|</div><div class="line">|bulk_write + UpdateOne|50w|1k|00:00:20|db\[&apos;test&apos;\].bulk_write(list(map(lambda item: UpdateOne(&#123;&apos;_id&apos;: item\[&apos;_id&apos;\]&#125;, &#123;&apos;$set&apos;: &#123;&apos;i&apos;: item\[&apos;i&apos;\]&#125;&#125;, upsert=True),items)))|</div><div class="line">|bulk_write + UpdateOne|50w|10k|00:00:21|db\[&apos;test&apos;\].bulk_write(list(map(lambda item: UpdateOne(&#123;&apos;_id&apos;: item\[&apos;_id&apos;\]&#125;, &#123;&apos;$set&apos;: &#123;&apos;i&apos;: item\[&apos;i&apos;\]&#125;&#125;, upsert=True),items)))|</div><div class="line">|bulk_write + UpdateOne|50w|50w|00:00:22|db\[&apos;test&apos;\].bulk_write(list(map(lambda item: UpdateOne(&#123;&apos;_id&apos;: item\[&apos;_id&apos;\]&#125;, &#123;&apos;$set&apos;: &#123;&apos;i&apos;: item\[&apos;i&apos;\]&#125;&#125;, upsert=True),items)))|</div><div class="line">|bulk_write + UpdateOne + InsertOne|50w(update)+50w(insert)=100w|10k|00:00:38|db\[&apos;test&apos;\].bulk_write(list(map(InsertOne, items1)) + list(map(lambda item: UpdateOne(&#123;&apos;_id&apos;: item\[&apos;_id&apos;\]&#125;, &#123;&apos;$set&apos;: &#123;&apos;i&apos;: 0&#125;&#125;, upsert=True),items2)))|</div><div class="line"></div><div class="line">模拟代码如下：</div></pre></td></tr></table></figure></td>
 </tr>
 </tbody>
 </table>
-<p>模拟代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">import pymongo</div><div class="line">import time</div><div class="line">from pymongo import InsertOne, ReplaceOne, UpdateOne</div><div class="line">from pymongo.errors import BulkWriteError</div><div class="line"></div><div class="line">settings = &#123;</div><div class="line">    &apos;MONGO_HOST&apos;: &quot;***&quot;, # 数据库地址</div><div class="line">    &apos;MONGO_PORT&apos;: ***,   # 数据库端口</div><div class="line">    &apos;MONGO_DB&apos;: &quot;***&quot;,   # 数据库名</div><div class="line">    &apos;MONGO_USER&apos;: &quot;***&quot;, # 用户名</div><div class="line">    &apos;MONGO_PSW&apos;: &quot;***&quot;,  # 密码</div><div class="line">&#125;</div><div class="line">client = pymongo.MongoClient(host=settings[&apos;MONGO_HOST&apos;],port=settings[&apos;MONGO_PORT&apos;])</div><div class="line">client.admin.authenticate(settings[&apos;MONGO_USER&apos;], settings[&apos;MONGO_PSW&apos;],mechanism=&apos;SCRAM-SHA-1&apos;)</div><div class="line">db = client[settings[&apos;MONGO_DB&apos;]]</div><div class="line"></div><div class="line">l1 = []</div><div class="line">for i in range(500000, 1000001):</div><div class="line">    l1.append(&#123;&apos;i&apos;: i&#125;)</div><div class="line"></div><div class="line">l2 = list(db[&apos;test&apos;].find(&#123;&#125;))</div><div class="line"></div><div class="line">start_time = time.time()</div><div class="line"></div><div class="line">page = 0</div><div class="line">count = 10000</div><div class="line"></div><div class="line">while True:</div><div class="line">    skip = page * count</div><div class="line">    page = page + 1</div><div class="line">    items1 = l1[skip:skip + count]</div><div class="line">    items2 = l2[skip:skip + count]</div><div class="line">    items = list(map(InsertOne, items1)) + list(map(InsertOne, items1))</div><div class="line">    try:</div><div class="line">        db[&apos;test&apos;].bulk_write( \</div><div class="line">            list(map(InsertOne, items1)) + \</div><div class="line">            list(map(lambda item: UpdateOne(&#123;&apos;_id&apos;: item[&apos;_id&apos;]&#125;, &#123;&apos;$set&apos;: &#123;&apos;i&apos;: 0&#125;&#125;, upsert=True),items2)))</div><div class="line">    except BulkWriteError as bwe:</div><div class="line">        print(bwe.details)</div><div class="line">    else:</div><div class="line">        print(page)</div><div class="line">        if page == 50:</div><div class="line">            break</div><div class="line"></div><div class="line">end_time = time.time()</div><div class="line">consume_time = end_time - start_time</div><div class="line">consume_time = &apos;&#123;:0&gt;2s&#125;&apos;.format(str(int(consume_time // 3600))) \</div><div class="line">               + &apos;:&#123;:0&gt;2s&#125;&apos;.format(str(int((consume_time // 60) % 60))) \</div><div class="line">               + &apos;:&#123;:0&gt;2s&#125;&apos;.format(str(int(consume_time % 60)))</div><div class="line">print(consume_time)</div></pre></td></tr></table></figure></p>
-<p>注意：bulk_write(list)传入的list不能为空，会出现报错信息。</p>
+<p>import pymongo<br>import time<br>from pymongo import InsertOne, ReplaceOne, UpdateOne<br>from pymongo.errors import BulkWriteError</p>
+<p>settings = {<br>    ‘MONGO_HOST’: “<strong><em>“, # 数据库地址<br>    ‘MONGO_PORT’: </em></strong>,   # 数据库端口<br>    ‘MONGO_DB’: “<strong><em>“,   # 数据库名<br>    ‘MONGO_USER’: “</em></strong>“, # 用户名<br>    ‘MONGO_PSW’: “<em>*</em>“,  # 密码<br>}<br>client = pymongo.MongoClient(host=settings[‘MONGO_HOST’],port=settings[‘MONGO_PORT’])<br>client.admin.authenticate(settings[‘MONGO_USER’], settings[‘MONGO_PSW’],mechanism=’SCRAM-SHA-1’)<br>db = client[settings[‘MONGO_DB’]]</p>
+<p>l1 = []<br>for i in range(500000, 1000001):<br>    l1.append({‘i’: i})</p>
+<p>l2 = list(db[‘test’].find({}))</p>
+<p>start_time = time.time()</p>
+<p>page = 0<br>count = 10000</p>
+<p>while True:<br>    skip = page * count<br>    page = page + 1<br>    items1 = l1[skip:skip + count]<br>    items2 = l2[skip:skip + count]<br>    items = list(map(InsertOne, items1)) + list(map(InsertOne, items1))<br>    try:<br>        db[‘test’].bulk_write( \<br>            list(map(InsertOne, items1)) + \<br>            list(map(lambda item: UpdateOne({‘_id’: item[‘_id’]}, {‘$set’: {‘i’: 0}}, upsert=True),items2)))<br>    except BulkWriteError as bwe:<br>        print(bwe.details)<br>    else:<br>        print(page)<br>        if page == 50:<br>            break</p>
+<p>end_time = time.time()<br>consume_time = end_time - start_time<br>consume_time = ‘{:0&gt;2s}’.format(str(int(consume_time // 3600))) \</p>
+<pre><code>+ &apos;:{:0&gt;2s}&apos;.format(str(int((consume_time // 60) % 60))) \
++ &apos;:{:0&gt;2s}&apos;.format(str(int(consume_time % 60)))
+</code></pre><p>print(consume_time)<br>```<br>注意：bulk_write(list)传入的list不能为空，会出现报错信息。</p>
 <blockquote>
 <p>经过测试，可以看到批量操作与单条操作的写入效率相差非常大，Insert批量插入与Bulk Write快操作效率基本相同。<br>但bulk_write()可以将增删改操作合在一起，具有更好的灵活性。</p>
 </blockquote>
