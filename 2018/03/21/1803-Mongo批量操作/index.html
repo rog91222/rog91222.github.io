@@ -85,7 +85,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.webmad.net/images/18.03.21.1/abstract.png">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2018-03-21T11:57:18.429Z">
+<meta property="og:updated_time" content="2018-03-21T12:03:08.616Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB块操作初体验">
 <meta name="twitter:image" content="http://blog.webmad.net/images/18.03.21.1/abstract.png">
@@ -507,6 +507,7 @@
 <blockquote>
 <p>经过测试，可以看到批量操作与单条操作的写入效率相差非常大，Insert批量插入与Bulk Write快操作效率基本相同。<br>但bulk_write()可以将增删改操作合在一起，具有更好的灵活性。</p>
 </blockquote>
+<p>吐槽：手贱循环了一个亿的数据进列表，系统直接跑死机了，PyCharm/SecureCRT/Studio 3T环境全部崩溃，连搜狗输入法都崩了！！！摔！！！</p>
 <center><br><a href="mailto:hugh.dong@outlook.com" class="my-btn-contact" target="_blank" rel="external">联系博主</a><br><br></center>
 
 <p><img src="http://blog.webmad.net/images/guide.png" alt="img_guide"></p>
@@ -541,8 +542,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/20/1803-Mongo索引优先级/" rel="next" title="MongoDB索引优先级的问题">
-                <i class="fa fa-chevron-left"></i> MongoDB索引优先级的问题
+              <a href="/2018/03/20/1803-重复造轮子/" rel="next" title="记一次凭想象重复造轮子的错误示范">
+                <i class="fa fa-chevron-left"></i> 记一次凭想象重复造轮子的错误示范
               </a>
             
           </div>
