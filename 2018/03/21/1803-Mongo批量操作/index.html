@@ -85,7 +85,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.webmad.net/images/18.03.21.1/abstract.png">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2018-03-21T11:54:23.763Z">
+<meta property="og:updated_time" content="2018-03-21T11:57:18.429Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB块操作初体验">
 <meta name="twitter:image" content="http://blog.webmad.net/images/18.03.21.1/abstract.png">
@@ -504,6 +504,9 @@
 </table>
 <p>模拟代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">import pymongo</div><div class="line">import time</div><div class="line">from pymongo import InsertOne, ReplaceOne, UpdateOne</div><div class="line">from pymongo.errors import BulkWriteError</div><div class="line"></div><div class="line">settings = &#123;</div><div class="line">    &apos;MONGO_HOST&apos;: &quot;***&quot;, # 数据库地址</div><div class="line">    &apos;MONGO_PORT&apos;: ***,   # 数据库端口</div><div class="line">    &apos;MONGO_DB&apos;: &quot;***&quot;,   # 数据库名</div><div class="line">    &apos;MONGO_USER&apos;: &quot;***&quot;, # 用户名</div><div class="line">    &apos;MONGO_PSW&apos;: &quot;***&quot;,  # 密码</div><div class="line">&#125;</div><div class="line">client = pymongo.MongoClient(host=settings[&apos;MONGO_HOST&apos;],port=settings[&apos;MONGO_PORT&apos;])</div><div class="line">client.admin.authenticate(settings[&apos;MONGO_USER&apos;], settings[&apos;MONGO_PSW&apos;],mechanism=&apos;SCRAM-SHA-1&apos;)</div><div class="line">db = client[settings[&apos;MONGO_DB&apos;]]</div><div class="line"></div><div class="line">l1 = []</div><div class="line">for i in range(500000, 1000001):</div><div class="line">    l1.append(&#123;&apos;i&apos;: i&#125;)</div><div class="line"></div><div class="line">l2 = list(db[&apos;test&apos;].find(&#123;&#125;))</div><div class="line"></div><div class="line">start_time = time.time()</div><div class="line"></div><div class="line">page = 0</div><div class="line">count = 10000</div><div class="line"></div><div class="line">while True:</div><div class="line">    skip = page * count</div><div class="line">    page = page + 1</div><div class="line">    items1 = l1[skip:skip + count]</div><div class="line">    items2 = l2[skip:skip + count]</div><div class="line">    items = list(map(InsertOne, items1)) + list(map(InsertOne, items1))</div><div class="line">    try:</div><div class="line">        db[&apos;test&apos;].bulk_write( \</div><div class="line">            list(map(InsertOne, items1)) + \</div><div class="line">            list(map(lambda item: UpdateOne(&#123;&apos;_id&apos;: item[&apos;_id&apos;]&#125;, &#123;&apos;$set&apos;: &#123;&apos;i&apos;: 0&#125;&#125;, upsert=True),items2)))</div><div class="line">    except BulkWriteError as bwe:</div><div class="line">        print(bwe.details)</div><div class="line">    else:</div><div class="line">        print(page)</div><div class="line">        if page == 50:</div><div class="line">            break</div><div class="line"></div><div class="line">end_time = time.time()</div><div class="line">consume_time = end_time - start_time</div><div class="line">consume_time = &apos;&#123;:0&gt;2s&#125;&apos;.format(str(int(consume_time // 3600))) \</div><div class="line">               + &apos;:&#123;:0&gt;2s&#125;&apos;.format(str(int((consume_time // 60) % 60))) \</div><div class="line">               + &apos;:&#123;:0&gt;2s&#125;&apos;.format(str(int(consume_time % 60)))</div><div class="line">print(consume_time)</div></pre></td></tr></table></figure></p>
 <p>注意：bulk_write(list)传入的list不能为空，会出现报错信息。</p>
+<blockquote>
+<p>经过测试，可以看到批量操作与单条操作的写入效率相差非常大，Insert批量插入与Bulk Write快操作效率基本相同。<br>但bulk_write()可以将增删改操作合在一起，具有更好的灵活性。</p>
+</blockquote>
 <center><br><a href="mailto:hugh.dong@outlook.com" class="my-btn-contact" target="_blank" rel="external">联系博主</a><br><br></center>
 
 <p><img src="http://blog.webmad.net/images/guide.png" alt="img_guide"></p>
@@ -538,8 +541,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/20/1803-重复造轮子/" rel="next" title="记一次凭想象重复造轮子的错误示范">
-                <i class="fa fa-chevron-left"></i> 记一次凭想象重复造轮子的错误示范
+              <a href="/2018/03/20/1803-Mongo索引优先级/" rel="next" title="MongoDB索引优先级的问题">
+                <i class="fa fa-chevron-left"></i> MongoDB索引优先级的问题
               </a>
             
           </div>
