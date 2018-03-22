@@ -85,7 +85,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.webmad.net/images/18.03.21.1/abstract.png">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2018-03-22T06:02:44.940Z">
+<meta property="og:updated_time" content="2018-03-22T06:30:10.738Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mongo聚合操作与清洗重复数据项">
 <meta name="twitter:image" content="http://blog.webmad.net/images/18.03.21.1/abstract.png">
@@ -323,8 +323,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/「数据库」从删库到跑路/" itemprop="url" rel="index">
-                    <span itemprop="name">「数据库」从删库到跑路</span>
+                  <a href="/categories/「数据」沙里淘金/" itemprop="url" rel="index">
+                    <span itemprop="name">「数据」沙里淘金</span>
                   </a>
                 </span>
 
@@ -362,8 +362,7 @@
       
         <p><img src="http://blog.webmad.net/images/18.03.21.1/abstract.png" alt="img_noborder"><br><a id="more"></a></p>
 <blockquote>
-<p>使用Mongo聚合操作来进行重复的数据项清洗</p>
-<p>当前环境 PyMongo 3.6.1 / MongoDB 3.4.7 / Python 3.6.4 :: Anaconda, Inc.</p>
+<p>使用Mongo聚合操作来进行重复的数据项清洗，并使用PyMongo加入到数据清洗组件中。<br>PyMongo 3.6.1 / MongoDB 3.4.7 / Python 3.6.4 :: Anaconda, Inc.</p>
 </blockquote>
 <p>一行代码鬼畜版：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">print(&apos;remove repeat data:&apos;,len(list(map(lambda doc:db[&apos;data_value&apos;].remove(&#123;&apos;_id&apos;: &#123;&apos;$in&apos;: doc[&apos;dups&apos;][1:]&#125;&#125;), db[&apos;data_value&apos;].aggregate(pipeline=[&#123;&apos;$group&apos;: &#123;&apos;_id&apos;: &#123;&apos;title&apos;: &apos;$title&apos;, &apos;date&apos;: &apos;$date&apos;, &apos;source&apos;: &apos;$source&apos;&#125;,&apos;count&apos;: &#123;&apos;$sum&apos;: 1&#125;,&apos;dups&apos;: &#123;&apos;$addToSet&apos;: &apos;$_id&apos;&#125;&#125;,&#125;,&#123;&apos;$match&apos;: &#123;&apos;count&apos;: &#123;&apos;$gt&apos;: 1&#125;&#125;&#125;])))))</div></pre></td></tr></table></figure></p>
 <center><br><a href="mailto:hugh.dong@outlook.com" class="my-btn-contact" target="_blank" rel="external">联系博主</a><br><br></center>
