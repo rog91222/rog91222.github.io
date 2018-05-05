@@ -98,7 +98,7 @@
 <meta property="og:image" content="http://blog.webmad.net/images/17.11.12.1/9.png">
 <meta property="og:image" content="http://blog.webmad.net/images/17.11.12.1/44.png">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2018-03-22T11:50:17.157Z">
+<meta property="og:updated_time" content="2018-05-05T16:01:11.548Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次网站跳转被劫持">
 <meta name="twitter:image" content="http://blog.webmad.net/images/17.11.12.1/abstract.png">
@@ -373,19 +373,19 @@
       
 
       
-        <p><img src="http://blog.webmad.net/images/17.11.12.1/abstract.png" alt="img_noborder"><br><a id="more"></a><br>晚上汪酱(艺名)突然找我, 十分意外<br><strong>我</strong>: 大爷, 来玩嘛撒?<br><strong>汪</strong>: 江湖救急, 测试下这个网站能不能正常打开,有没有异常跳转<br><strong>我</strong>: 正常<br><strong>汪</strong>: 挂个代理看看<br><strong>我</strong>: 日本正常<br><strong>汪</strong>: 换个国内代理<br><strong>我</strong>: 北京正常<br><strong>汪</strong>: 再换个<br><strong>我</strong>: 武汉正常<br><strong>汪</strong>: …<br><strong>我</strong>: ???<br><strong>汪</strong>: 换个山东的<br><strong>我</strong>: 正常啊, 大晚上啥情况???<br><strong>汪</strong>: 我们公司网站好像被人劫持了, 但是只有老板那边会出现跳转, 复现不出来<br><strong>我</strong>: …<br>换浏览器/地区/环境,折腾了好一会儿也没有复现出劫持,都怀疑是不是跳转代码已经被撤下来了<br>直到点到了这个 ↓</p>
-<p><img src="http://blog.webmad.net/images/17.11.12.1/1.png" alt="img_shadow"><br>原网站</p>
-<p><img src="http://blog.webmad.net/images/17.11.12.1/2.png" alt="img_shadow"><br>恶意目标</p>
-<p><img src="http://blog.webmad.net/images/17.11.12.1/3.png" alt="img_shadow"><br>如果照着刚刚域名直接访问的思路看下去,能复现都见了鬼了…<br>跳转时会伴随着出现链接被重置的报错信息,应该是百度快照被劫持了<br>撸起袖子就是干,找问题吧<br><strong>我</strong>: 哥们发代码来看看<br><strong>汪</strong>: 我没有… 老板不给服务器权限… 只有OA可以用…<br><strong>我</strong>: ???<br><img src="http://blog.webmad.net/images/17.11.12.1/11.png" alt="img_shadow"><br>搜索可疑字符串, 正常<br>检查代码, 正常<br>…<br>难道是百度那端出问题了? 一边怀疑人生一边和汪酱闲聊<br>我: 这网站不刚建么, 为啥还用JQuery1.8?<br>汪: 没用JQuery啊<br>我: 这不JQuery-1.8.0-min.js呢么?<br>汪: 我们公司除了我没人会用JQuery啊, 这网站不是我做的<br>我: ??????<br><img src="http://blog.webmad.net/images/17.11.12.1/22.png" alt="img_shadow"><br>问题难道在这儿么, 从CDN上下了一个新的JQuery1.8.0拉进来对比一下</p>
-<p><img src="http://blog.webmad.net/images/17.11.12.1/4.png" alt="img_shadow"><br>多出来的这个是什么?<br>代码格式化看看</p>
-<p><img src="http://blog.webmad.net/images/17.11.12.1/5.png" alt="img_shadow"><br>JQuery压根就没有Focus(), 只有focus()<br>那么问题来了, 这个恶意的JQuery文件是怎么传上去的呢?<br>直到我看到了ASPCMS的贴(zhi)心(zhang)功能</p>
-<p><img src="http://blog.webmad.net/images/17.11.12.1/6.png" alt="img_shadow"><br>为什么会有后台上传js这种功能啊喂!!!<br>千里送人头, 礼轻情意重<br><img src="http://blog.webmad.net/images/17.11.12.1/33.png" alt="img_shadow"><br>控制台运行一下代码拼出了指向了”微软”域名的请求</p>
-<p><img src="http://blog.webmad.net/images/17.11.12.1/7.png" alt="img_shadow"><br>可是为什么要指向微软呢???<br>敲黑板, 仔细看域名!<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://www.microsoftware.link/ 这是恶意网站</div><div class="line">https://www.microsoft.com/ 这是微软网站</div></pre></td></tr></table></figure></p>
+        <p><img src="/images/17.11.12.1/abstract.png" alt="img_noborder"><br><a id="more"></a><br>晚上汪酱(艺名)突然找我, 十分意外<br><strong>我</strong>: 大爷, 来玩嘛撒?<br><strong>汪</strong>: 江湖救急, 测试下这个网站能不能正常打开,有没有异常跳转<br><strong>我</strong>: 正常<br><strong>汪</strong>: 挂个代理看看<br><strong>我</strong>: 日本正常<br><strong>汪</strong>: 换个国内代理<br><strong>我</strong>: 北京正常<br><strong>汪</strong>: 再换个<br><strong>我</strong>: 武汉正常<br><strong>汪</strong>: …<br><strong>我</strong>: ???<br><strong>汪</strong>: 换个山东的<br><strong>我</strong>: 正常啊, 大晚上啥情况???<br><strong>汪</strong>: 我们公司网站好像被人劫持了, 但是只有老板那边会出现跳转, 复现不出来<br><strong>我</strong>: …<br>换浏览器/地区/环境,折腾了好一会儿也没有复现出劫持,都怀疑是不是跳转代码已经被撤下来了<br>直到点到了这个 ↓</p>
+<p><img src="/images/17.11.12.1/1.png" alt="img_shadow"><br>原网站</p>
+<p><img src="/images/17.11.12.1/2.png" alt="img_shadow"><br>恶意目标</p>
+<p><img src="/images/17.11.12.1/3.png" alt="img_shadow"><br>如果照着刚刚域名直接访问的思路看下去,能复现都见了鬼了…<br>跳转时会伴随着出现链接被重置的报错信息,应该是百度快照被劫持了<br>撸起袖子就是干,找问题吧<br><strong>我</strong>: 哥们发代码来看看<br><strong>汪</strong>: 我没有… 老板不给服务器权限… 只有OA可以用…<br><strong>我</strong>: ???<br><img src="/images/17.11.12.1/11.png" alt="img_shadow"><br>搜索可疑字符串, 正常<br>检查代码, 正常<br>…<br>难道是百度那端出问题了? 一边怀疑人生一边和汪酱闲聊<br>我: 这网站不刚建么, 为啥还用JQuery1.8?<br>汪: 没用JQuery啊<br>我: 这不JQuery-1.8.0-min.js呢么?<br>汪: 我们公司除了我没人会用JQuery啊, 这网站不是我做的<br>我: ??????<br><img src="/images/17.11.12.1/22.png" alt="img_shadow"><br>问题难道在这儿么, 从CDN上下了一个新的JQuery1.8.0拉进来对比一下</p>
+<p><img src="/images/17.11.12.1/4.png" alt="img_shadow"><br>多出来的这个是什么?<br>代码格式化看看</p>
+<p><img src="/images/17.11.12.1/5.png" alt="img_shadow"><br>JQuery压根就没有Focus(), 只有focus()<br>那么问题来了, 这个恶意的JQuery文件是怎么传上去的呢?<br>直到我看到了ASPCMS的贴(zhi)心(zhang)功能</p>
+<p><img src="/images/17.11.12.1/6.png" alt="img_shadow"><br>为什么会有后台上传js这种功能啊喂!!!<br>千里送人头, 礼轻情意重<br><img src="/images/17.11.12.1/33.png" alt="img_shadow"><br>控制台运行一下代码拼出了指向了”微软”域名的请求</p>
+<p><img src="/images/17.11.12.1/7.png" alt="img_shadow"><br>可是为什么要指向微软呢???<br>敲黑板, 仔细看域名!<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://www.microsoftware.link/ 这是恶意网站</div><div class="line">https://www.microsoft.com/ 这是微软网站</div></pre></td></tr></table></figure></p>
 <p>顺着域名摸到了一个后台登录页面,</p>
-<p><img src="http://blog.webmad.net/images/17.11.12.1/8.png" alt="img_shadow"><br>结合请求中的Web_id,大概摸清了劫持事件的流程:<br>攻击者通过网站管理被劫持的站点和目标站点<br>利用ASPCMS漏洞上传假的JQuery文件 → 向攻击者管理的网站发起请求 → 接受请求返回后跳转到指定网站<br>网上类似的案例 <a href="https://segmentfault.com/q/1010000008709340" target="_blank" rel="external"><strong>js源文件中被写入了恶意代码，如何找出？</strong></a><br><img src="http://blog.webmad.net/images/17.11.12.1/9.png" alt="img_shadow"><br>经过一晚上奇葩事件之后先行恢复了网站的运行, 恶意请求的内容会继续研究下去<br>如果不是因为汪酱公司没人会用JQuery…<br>我想, 应该要拖很久很久才能解决掉这次的事件吧<br><img src="http://blog.webmad.net/images/17.11.12.1/44.png" alt="img_shadow"><br>未完待续,敬请期待</p>
+<p><img src="/images/17.11.12.1/8.png" alt="img_shadow"><br>结合请求中的Web_id,大概摸清了劫持事件的流程:<br>攻击者通过网站管理被劫持的站点和目标站点<br>利用ASPCMS漏洞上传假的JQuery文件 → 向攻击者管理的网站发起请求 → 接受请求返回后跳转到指定网站<br>网上类似的案例 <a href="https://segmentfault.com/q/1010000008709340" target="_blank" rel="external"><strong>js源文件中被写入了恶意代码，如何找出？</strong></a><br><img src="/images/17.11.12.1/9.png" alt="img_shadow"><br>经过一晚上奇葩事件之后先行恢复了网站的运行, 恶意请求的内容会继续研究下去<br>如果不是因为汪酱公司没人会用JQuery…<br>我想, 应该要拖很久很久才能解决掉这次的事件吧<br><img src="/images/17.11.12.1/44.png" alt="img_shadow"><br>未完待续,敬请期待</p>
 <center><br><a href="mailto:hugh.dong@outlook.com" class="my-btn-contact" target="_blank" rel="external">联系博主</a><br><br></center>
 
-<p><img src="http://blog.webmad.net/images/guide.png" alt="img_guide"></p>
+<p><img src="/images/guide.png" alt="img_guide"></p>
 
       
     </div>
@@ -431,8 +431,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/28/1712-MFC实现俄罗斯方块/" rel="prev" title="MFC实现俄罗斯方块">
-                MFC实现俄罗斯方块 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/28/1712-Vue初体验/" rel="prev" title="Vue初体验">
+                Vue初体验 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
