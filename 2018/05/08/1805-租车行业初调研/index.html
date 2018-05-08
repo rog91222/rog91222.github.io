@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="Python,爬虫," />
+  <meta name="keywords" content="调研,业务," />
 
 
 
@@ -77,20 +77,18 @@
 
 
 
-<meta name="keywords" content="Python,爬虫">
+<meta name="keywords" content="调研,业务">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python爬虫初体验">
-<meta property="og:url" content="http://blog.webmad.net/2018/01/20/1801-Python爬虫初体验/index.html">
+<meta property="og:title" content="租车行业调研报告">
+<meta property="og:url" content="http://blog.webmad.net/2018/05/08/1805-租车行业初调研/index.html">
 <meta property="og:site_name" content="Hugh Dong">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://blog.webmad.net/images/18.01.20.1/abstract.png">
-<meta property="og:image" content="http://blog.webmad.net/images/18.01.20.1/1.png">
-<meta property="og:image" content="http://blog.webmad.net/images/18.01.20.1/2.png">
+<meta property="og:image" content="http://blog.webmad.net/images/1805080/abstract.jpg">
 <meta property="og:image" content="http://blog.webmad.net/images/guide.png">
-<meta property="og:updated_time" content="2018-05-05T16:01:12.145Z">
+<meta property="og:updated_time" content="2018-05-08T07:08:55.160Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python爬虫初体验">
-<meta name="twitter:image" content="http://blog.webmad.net/images/18.01.20.1/abstract.png">
+<meta name="twitter:title" content="租车行业调研报告">
+<meta name="twitter:image" content="http://blog.webmad.net/images/1805080/abstract.jpg">
 
 
 
@@ -120,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="http://blog.webmad.net/2018/01/20/1801-Python爬虫初体验/"/>
+  <link rel="canonical" href="http://blog.webmad.net/2018/05/08/1805-租车行业初调研/"/>
 
 
 
 
 
-  <title>Python爬虫初体验 | Hugh Dong</title>
+  <title>租车行业调研报告 | Hugh Dong</title>
   
 
 
@@ -273,7 +271,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.webmad.net/2018/01/20/1801-Python爬虫初体验/">
+    <link itemprop="mainEntityOfPage" href="http://blog.webmad.net/2018/05/08/1805-租车行业初调研/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hugh Dong">
@@ -290,7 +288,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Python爬虫初体验</h1>
+          <h1 class="post-title" itemprop="name headline">租车行业调研报告</h1>
         
 
         <div class="post-meta">
@@ -302,8 +300,8 @@
               
                 <!--<span class="post-meta-item-text">发表于</span>-->
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-20T00:00:00+08:00">
-                2018-01-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-08T00:00:00+08:00">
+                2018-05-08
               </time>
             
 
@@ -325,8 +323,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/「数据」沙里淘金/" itemprop="url" rel="index">
-                    <span itemprop="name">「数据」沙里淘金</span>
+                  <a href="/categories/「业务」范式/" itemprop="url" rel="index">
+                    <span itemprop="name">「业务」范式</span>
                   </a>
                 </span>
 
@@ -362,19 +360,12 @@
       
 
       
-        <p><img src="/images/18.01.20.1/abstract.png" alt="img_noborder"><br><a id="more"></a></p>
-<h2 id="爬取需求"><a href="#爬取需求" class="headerlink" title="爬取需求"></a>爬取需求</h2><p>通过爬虫抓取自己博客首页的图片</p>
-<h2 id="爬取思路"><a href="#爬取思路" class="headerlink" title="爬取思路"></a>爬取思路</h2><ol>
-<li>通过urllib模块的request对目标网址解析,获取到html</li>
-<li>选择合适的正则表达式,通过re模块进行匹配,获取到的目标链接存入数组</li>
-<li>通过文件读写将目标图片下载到本地</li>
-</ol>
-<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>安装 Python3.6 和 Anaconda<br>Anaconda中已经集成了re和urllib模块<br>但要注意Anaconda安装时是否替换了Python本身环境</p>
-<h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"># -*- coding: UTF-8 -*-</div><div class="line">import re  # 正则表达式匹配模块</div><div class="line">from urllib import request  # 图片请求模块</div><div class="line"></div><div class="line">response = request.urlopen(&apos;http://blog.webmad.net/&apos;)  # 目标网址解析</div><div class="line">html = response.read().decode(&quot;utf-8&quot;)  # utf-8解码</div><div class="line"></div><div class="line"></div><div class="line">def GetImage(html):</div><div class="line">    reg = r&apos;http.*jpg|http.*png&apos;  # 正则匹配http开头,jpg或png结尾</div><div class="line">    imgre = re.compile(reg)</div><div class="line">    imglist = re.findall(imgre, html)  # 对正则和html匹配</div><div class="line">    return imglist</div><div class="line"></div><div class="line"></div><div class="line">imgList = GetImage(html)  # 构造匹配后的图片路径</div><div class="line">imgName = 1</div><div class="line"></div><div class="line">for imgPath in imgList:  # 遍历图片路径</div><div class="line">    if imgPath.find(&apos;png&apos;) == -1:  # 判定格式是png还是jpg</div><div class="line">        f = open(&quot;./pic/&quot; + str(imgName) + &quot;.jpg&quot;, &apos;wb&apos;)  # 打开图片资源</div><div class="line">    else:</div><div class="line">        f = open(&quot;./pic/&quot; + str(imgName) + &quot;.png&quot;, &apos;wb&apos;)</div><div class="line">    f.write((request.urlopen(imgPath)).read())  # 存入本地</div><div class="line">    f.close()  # 关闭文件</div><div class="line">    print(&quot;\033[1;36;m&quot;, &quot;*** Download&quot;)</div><div class="line">    print(&quot;\033[0m&quot;, imgPath)</div><div class="line">    imgName += 1</div><div class="line">print(&quot;\033[1;31;m&quot;, &quot;*** All Done!&quot;)</div></pre></td></tr></table></figure>
-<h2 id="运行截图"><a href="#运行截图" class="headerlink" title="运行截图"></a>运行截图</h2><p><img src="/images/18.01.20.1/1.png" alt="img_noborder"></p>
-<h2 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h2><p><img src="/images/18.01.20.1/2.png" alt="img_noborder"></p>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>爬虫爬取时往往需要通过控制台来查看进度,但默认控制台黑白色辨识度很低<br>所以打印日志时添加颜色加以区分,参考<a href="http://blog.webmad.net/2018/01/20/Python%E6%8E%A7%E5%88%B6%E5%8F%B0%E8%BE%93%E5%87%BA%E9%A2%9C%E8%89%B2/">传送门</a></p>
-<center><br><a href="mailto:hugh.dong@outlook.com" class="my-btn-contact" target="_blank" rel="external">联系博主</a><br><br></center>
+        <p><img src="/images/1805080/abstract.jpg" alt="img_noborder"><br><a id="more"></a></p>
+<p>声明：涉及本公司部分信息已经过删改，其他数据均来源于互联网，转载请注明出处。</p>
+<h3 id="行业概况"><a href="#行业概况" class="headerlink" title="行业概况"></a>行业概况</h3><h4 id="商业模式"><a href="#商业模式" class="headerlink" title="商业模式"></a>商业模式</h4><p>全国性租车平台<br>神州、一嗨、悟空等租车平台均使用B2C模式，B2C模式的典型特征是：<em>租赁企业自营车辆租赁平台；自主采购车辆资源；自建线下门店；</em>车辆、产品、服务、流程标准化，具备品牌、规模效。<br>部分企业采用B2C+平台模式，<em>接受传统租赁公司的加盟</em>，获取车辆资源。典型的有一嗨租车、易租车、大方租车。<br>全国性租车平台的业务主要<em>以短租、长租和分时租赁业务为主</em>，在此基础上各平台提供“闪租”（一嗨租车）等特色业务。</p>
+<p>P2P平台<br>P2P平台是连接出租用户与承租用户中间平台，典型企业有PP租车、凹凸租车、共享有车生活平台。<em>将家庭闲置车辆加盟平台，供给用户使用</em>，车主能够随时监控车辆位置、行驶情况。</p>
+<p>中小公司/车队<br>地方性中小型租车公司或车队主要<em>承接旅游、商务长租和婚庆租车业务</em>。</p>
+<h4 id="业务模式"><a href="#业务模式" class="headerlink" title="业务模式"></a>业务模式</h4><h4 id="收入模式"><a href="#收入模式" class="headerlink" title="收入模式"></a>收入模式</h4><h4 id="市场分布"><a href="#市场分布" class="headerlink" title="市场分布"></a>市场分布</h4><h4 id="加盟合作"><a href="#加盟合作" class="headerlink" title="加盟合作"></a>加盟合作</h4><h3 id="经营细节"><a href="#经营细节" class="headerlink" title="经营细节"></a>经营细节</h3><h4 id="公司资质"><a href="#公司资质" class="headerlink" title="公司资质"></a>公司资质</h4><h4 id="申领手续"><a href="#申领手续" class="headerlink" title="申领手续"></a>申领手续</h4><h4 id="车辆保险"><a href="#车辆保险" class="headerlink" title="车辆保险"></a>车辆保险</h4><h4 id="违章处理"><a href="#违章处理" class="headerlink" title="违章处理"></a>违章处理</h4><center><br><a href="mailto:hugh.dong@outlook.com" class="my-btn-contact" target="_blank" rel="external">联系博主</a><br><br></center>
 
 <p><img src="/images/guide.png" alt="img_guide"></p>
 
@@ -394,9 +385,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Python/" rel="tag"># Python</a>
+            <a href="/tags/调研/" rel="tag"># 调研</a>
           
-            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
+            <a href="/tags/业务/" rel="tag"># 业务</a>
           
         </div>
       
@@ -408,8 +399,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/20/1801-Python控制台输出颜色/" rel="next" title="Python控制台输出颜色">
-                <i class="fa fa-chevron-left"></i> Python控制台输出颜色
+              <a href="/2018/05/07/1805-四谎漫评/" rel="next" title="敬启 有马公生君">
+                <i class="fa fa-chevron-left"></i> 敬启 有马公生君
               </a>
             
           </div>
@@ -417,10 +408,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/31/1801-关于PPT养成的三两说/" rel="prev" title="关于PPT养成的三两说">
-                关于PPT养成的三两说 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
